@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Loy App</string>
+    <string name="app_name">Loyalty App</string>
+    <string name="facebook_app_id">2073532912950600</string>
+    <string name="fb_login_protocol_scheme">fb2073532912950600</string>
 </resources>
