@@ -7,11 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,37 +17,38 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.s3infosoft.loyaltyapp.adapter.HotelsAdapter;
+import com.s3infosoft.loyaltyapp.adapter.ProductAdapter;
 import com.s3infosoft.loyaltyapp.model.Hotel;
 import com.s3infosoft.loyaltyapp.model.Metadata;
+import com.s3infosoft.loyaltyapp.model.Product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
+public class ProductActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-    List<Hotel> hotels = new ArrayList<>();
+    List<Product> products = new ArrayList<>();
     RecyclerView recyclerView;
-    HotelsAdapter hotelsAdapter;
+    ProductAdapter productAdapter;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_product);
+
+        getSupportActionBar().setTitle("Products");
+        getSupportActionBar().setSubtitle("Redeem Points");
 
         recyclerView = (RecyclerView) findViewById(R.id.recyler_view);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("hotels");
+        databaseReference = firebaseDatabase.getReference("products");
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        /*databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.v("#DDDD", dataSnapshot.getValue().toString());
@@ -81,13 +80,13 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
 
             @Override
             public void onClick(View view, int position) {
-                Intent i = new Intent(MainActivity.this, ProductActivity.class);
+                Intent i = new Intent(ProductActivity.this, SpecialDealsActivity.class);
                 startActivity(i);
             }
 
@@ -97,10 +96,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }));
 
-        hotelsAdapter = new HotelsAdapter(this, hotels);
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg"));
+
+        productAdapter = new ProductAdapter(this, products);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(hotelsAdapter);
+        recyclerView.setAdapter(productAdapter);
     }
 }

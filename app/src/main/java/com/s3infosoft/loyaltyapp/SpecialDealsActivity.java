@@ -7,11 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,35 +17,35 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.s3infosoft.loyaltyapp.adapter.HotelsAdapter;
+import com.s3infosoft.loyaltyapp.adapter.SpecialDealAdapter;
 import com.s3infosoft.loyaltyapp.model.Hotel;
 import com.s3infosoft.loyaltyapp.model.Metadata;
+import com.s3infosoft.loyaltyapp.model.SpecialDeal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
+public class SpecialDealsActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-    List<Hotel> hotels = new ArrayList<>();
+    List<SpecialDeal> specialDeals = new ArrayList<>();
     RecyclerView recyclerView;
-    HotelsAdapter hotelsAdapter;
+    SpecialDealAdapter specialDealAdapter;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_special_deals);
+
+        getSupportActionBar().setTitle("Special Deals");
 
         recyclerView = (RecyclerView) findViewById(R.id.recyler_view);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("hotels");
+        databaseReference = firebaseDatabase.getReference("special_deals");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -71,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
                         image_urls.add(m.get("image_url").toString());
                     }
 
-                    hotels.add(new Hotel(list.get("name").toString(), list.get("address").toString(), list.get("manager_email").toString(), list.get("email").toString(), new Metadata(), list.get("logo_url").toString(), list.get("manager_name").toString(), image_urls));
-                    Log.v("#####", list.get("name")+" "+list.get("metadata").toString());
-                    hotelsAdapter.notifyDataSetChanged();
+                    specialDeals.add(new SpecialDeal(list.get("name").toString(), list.get("description").toString(), image_urls, 8000));
+                    //Log.v("#####", list.get("name")+" "+list.get("metadata").toString());
+                    specialDealAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -87,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view, int position) {
-                Intent i = new Intent(MainActivity.this, ProductActivity.class);
+                Intent i = new Intent(SpecialDealsActivity.this, NewsActivity.class);
                 startActivity(i);
             }
 
@@ -97,10 +95,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }));
 
-        hotelsAdapter = new HotelsAdapter(this, hotels);
+        specialDealAdapter = new SpecialDealAdapter(this, specialDeals);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(hotelsAdapter);
+        recyclerView.setAdapter(specialDealAdapter);
     }
 }
