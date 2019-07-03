@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="7dp">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+
+        <LinearLayout
+            android:id="@+id/SliderDots"
+            android:orientation="horizontal"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/viewPager">
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/logo_url"
+            android:layout_width="64dp"
+            android:layout_height="55dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_below="@+id/SliderDots"/>
+
+        <TextView
+            android:id="@+id/hotel_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/logo_url"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:layout_below="@+id/SliderDots"/>
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rating="4"
+            android:layout_below="@id/hotel_name"
+            android:layout_toRightOf="@+id/logo_url"
+            style="@style/Widget.AppCompat.RatingBar.Small"/>
+
+        <TextView
+            android:id="@+id/hotel_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/logo_url"
+            android:paddingLeft="5dp"
+            android:layout_below="@+id/ratingBar"
+            android:text="address"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
