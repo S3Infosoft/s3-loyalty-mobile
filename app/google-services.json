@@ -1,42 +1,71 @@
 {
   "project_info": {
-    "project_number": "960994978688",
-    "firebase_url": "https://test-adba3.firebaseio.com",
-    "project_id": "test-adba3",
-    "storage_bucket": "test-adba3.appspot.com"
+    "project_number": "901646256624",
+    "firebase_url": "https://pithampur-32199.firebaseio.com",
+    "project_id": "pithampur-32199",
+    "storage_bucket": "pithampur-32199.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:960994978688:android:f445bfc2d4915f70",
+        "mobilesdk_app_id": "1:901646256624:android:9afa2c36ec71bd1e",
         "android_client_info": {
-          "package_name": "com.icy.chatscreen"
+          "package_name": "com.example.findme_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "960994978688-0ne7odgihv104q0tnoc36jepfo0d9aeg.apps.googleusercontent.com",
+          "client_id": "901646256624-q58u56ipg9t7lmj0to4fvhlk01r024jj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.icy.chatscreen",
-            "certificate_hash": "f5e7567d1323e2eec57f49ccbb25865c22202d6e"
+            "package_name": "com.example.findme_app",
+            "certificate_hash": "728a70667cc82e2408332c5620697164ecdaf4e2"
           }
         },
         {
-          "client_id": "960994978688-gh8v1vlkq2ld6t84lds2ehtbehi9c3b6.apps.googleusercontent.com",
+          "client_id": "901646256624-2p3on87tr0ndmqe509091bsqsehr1qg6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC8L6d0Q5ZQLSd7ulGBKik9VXR7-O6NmyI"
+          "current_key": "AIzaSyAoAtY33JBlNe7nEztItWDudDQeV_CJqT4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "960994978688-gh8v1vlkq2ld6t84lds2ehtbehi9c3b6.apps.googleusercontent.com",
+              "client_id": "901646256624-2p3on87tr0ndmqe509091bsqsehr1qg6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901646256624:android:43dab0aa578e5c7e",
+        "android_client_info": {
+          "package_name": "com.s3infosoft.loyaltyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901646256624-2p3on87tr0ndmqe509091bsqsehr1qg6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoAtY33JBlNe7nEztItWDudDQeV_CJqT4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901646256624-2p3on87tr0ndmqe509091bsqsehr1qg6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
