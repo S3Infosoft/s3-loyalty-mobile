@@ -158,7 +158,7 @@ marriagedatepicker = new DatePickerDialog.OnDateSetListener() {
                                     if(task.isSuccessful()){
 
                                         Toast.makeText(ListItem.this, "Succesful", Toast.LENGTH_SHORT).show();
-                                        Snackbar.make(view,"Data Stored Succesfully",LENGTH_SHORT);
+                                        Snackbar.make(view,"Data Stored Succesfully",LENGTH_SHORT).show();
                                     }else{
                                         Toast.makeText(ListItem.this, "Data not stored succesfully", Toast.LENGTH_SHORT).show();
                                     }

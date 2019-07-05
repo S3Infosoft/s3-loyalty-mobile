@@ -116,7 +116,7 @@ firebaseAuth=FirebaseAuth.getInstance();
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(phonenumberlogin.this, "You have signed in succesfully", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = task.getResult().getUser();
-                            Intent i = new Intent(phonenumberlogin.this,samplechatbot.class);
+                            Intent i = new Intent(phonenumberlogin.this,SettingsActivity.class);
                             startActivity(i);
                             finish();
 

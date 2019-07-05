@@ -1,58 +1,21 @@
 {
   "project_info": {
-    "project_number": "837940771900",
-    "firebase_url": "https://trail-pro-2dd1d.firebaseio.com",
-    "project_id": "trail-pro-2dd1d",
-    "storage_bucket": "trail-pro-2dd1d.appspot.com"
+    "project_number": "960994978688",
+    "firebase_url": "https://test-adba3.firebaseio.com",
+    "project_id": "test-adba3",
+    "storage_bucket": "test-adba3.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:837940771900:android:b904dbbf9402448c",
-        "android_client_info": {
-          "package_name": "com.example.trail"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "837940771900-o0vl52umhvqa1bn7j3uknntfk7m5oeem.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.trail",
-            "certificate_hash": "f5e7567d1323e2eec57f49ccbb25865c22202d6e"
-          }
-        },
-        {
-          "client_id": "837940771900-3u9oskt6igq1krju85r4esa3vc2inh5q.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBgduQ-U8ANeADKMxcaKjeJUJIxrReGaSI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "837940771900-3u9oskt6igq1krju85r4esa3vc2inh5q.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:837940771900:android:f445bfc2d4915f70",
+        "mobilesdk_app_id": "1:960994978688:android:f445bfc2d4915f70",
         "android_client_info": {
           "package_name": "com.icy.chatscreen"
         }
       },
       "oauth_client": [
         {
-          "client_id": "837940771900-16p2tfmtjo2thv4696cedin3bf3o27q4.apps.googleusercontent.com",
+          "client_id": "960994978688-0ne7odgihv104q0tnoc36jepfo0d9aeg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.icy.chatscreen",
@@ -60,57 +23,20 @@
           }
         },
         {
-          "client_id": "837940771900-3u9oskt6igq1krju85r4esa3vc2inh5q.apps.googleusercontent.com",
+          "client_id": "960994978688-gh8v1vlkq2ld6t84lds2ehtbehi9c3b6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBgduQ-U8ANeADKMxcaKjeJUJIxrReGaSI"
+          "current_key": "AIzaSyC8L6d0Q5ZQLSd7ulGBKik9VXR7-O6NmyI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "837940771900-3u9oskt6igq1krju85r4esa3vc2inh5q.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:837940771900:android:43dab0aa578e5c7e",
-        "android_client_info": {
-          "package_name": "com.s3infosoft.loyaltyapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "837940771900-v1gfetic0moqvbdddfl7bpdk1ht1na02.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.s3infosoft.loyaltyapp",
-            "certificate_hash": "f5e7567d1323e2eec57f49ccbb25865c22202d6e"
-          }
-        },
-        {
-          "client_id": "837940771900-3u9oskt6igq1krju85r4esa3vc2inh5q.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBgduQ-U8ANeADKMxcaKjeJUJIxrReGaSI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "837940771900-3u9oskt6igq1krju85r4esa3vc2inh5q.apps.googleusercontent.com",
+              "client_id": "960994978688-gh8v1vlkq2ld6t84lds2ehtbehi9c3b6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

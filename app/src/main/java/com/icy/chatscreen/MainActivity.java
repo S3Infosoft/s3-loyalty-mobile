@@ -14,12 +14,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -44,11 +47,11 @@ public class MainActivity extends AppCompatActivity {
 */
 
 //GSO
-FirebaseAuth mAuth;
-SignInButton gsi;
+private FirebaseAuth mAuth;
+SignInButton gsignin;
 GoogleSignInClient mGoogleSignInClient;
 //GSO
-
+int RC_SIGN_IN=9001;
 TextView signinwithphone;
 Button registernew;
     EditText emailet,passet;
@@ -82,19 +85,21 @@ ImageButton imgsign;
                     mAuth.signInWithEmailAndPassword(em,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(mAuth.getCurrentUser().isEmailVerified()){
-                                if(task.isSuccessful()){
+                            if(task.isSuccessful()){
+                                if(mAuth.getCurrentUser().isEmailVerified()){
                                 Toast.makeText(MainActivity.this, "Sign In Success", Toast.LENGTH_SHORT).show();
                             Snackbar.make(view,"Sign In Succesful",Snackbar.LENGTH_LONG).show();
-                            Intent i = new Intent(MainActivity.this,samplechatbot.class);
+                            Intent i = new Intent(MainActivity.this,SettingsActivity.class);
                             startActivity(i);
                             finish();
                             }
                             else {
-                                Toast.makeText(MainActivity.this, "Sign In Failed", Toast.LENGTH_SHORT).show();
+                                    mAuth.getCurrentUser().sendEmailVerification();
+                                    Snackbar.make(view,"Please Verify Your Email to continue",Snackbar.LENGTH_LONG).show();
                             }
                         }else{
-                                Snackbar.make(view,"Please Verify Your Email to continue",Snackbar.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this, "Sign In Failed", Toast.LENGTH_SHORT).show();
+
                             }
                     }});
 
@@ -107,18 +112,19 @@ ImageButton imgsign;
 
 
 
-        mAuth=FirebaseAuth.getInstance();
-        gsi = findViewById(R.id.gsi);
-        // Configure Google Sign In
+
+        gsignin = (SignInButton) findViewById(R.id.googlesign);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
-        gsi.setOnClickListener(new View.OnClickListener() {
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);mAuth=FirebaseAuth.getInstance();
+        gsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn();
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
 
@@ -186,32 +192,26 @@ ImageButton imgsign;
 
     }
 
-
-
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, 9001);
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == 9001) {
+        if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Toast.makeText(this, "Sign In Failed", Toast.LENGTH_SHORT).show();
-                // ...
+                // Google Si
+                Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
             }
         }
     }
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -220,15 +220,11 @@ ImageButton imgsign;
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+                            Toast.makeText(MainActivity.this, "Sign in Success", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(MainActivity.this, "Sign In Success", Toast.LENGTH_SHORT).show();;
-                            Intent i = new Intent(MainActivity.this,samplechatbot.class);
-                            startActivity(i);
-                            finish();
-
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(MainActivity.this, "Sign In Failed", Toast.LENGTH_SHORT).show();
+                            // If sign in fails, display a message to th
+                            Toast.makeText(MainActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
                         }
 
                         // ...
@@ -249,10 +245,12 @@ ImageButton imgsign;
 
 
 
-
     @Override
-    public void onStart() {
+    public void onStart()
+    {
         super.onStart();
+        FirebaseAuth.getInstance().signOut();
+
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser!=null){

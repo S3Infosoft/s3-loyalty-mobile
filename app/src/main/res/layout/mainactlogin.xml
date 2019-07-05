@@ -10,7 +10,7 @@
         android:background="@drawable/backlogin"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -48,7 +48,7 @@
             android:fontFamily="@font/baumans"
             android:gravity="center"
             android:id="@+id/usernameet"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/usernametv"
@@ -59,30 +59,21 @@
             android:gravity="center"
             android:id="@+id/passwordet"
             android:layout_alignLeft="@id/usernameet"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/usernameet"
             android:layout_alignRight="@id/usernameet"
             android:layout_toRightOf="@id/passwordtv"
             android:hint="Password" />
-<!--
-        <Button
-            android:id="@+id/loginbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/passwordtv"
-            android:layout_centerHorizontal="true"
 
-            android:text="Login" />
-    -->
         </RelativeLayout>
 
         <ImageButton
 android:id="@+id/imagesignin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/usernamepassword"
-            android:layout_centerVertical="true"
+            android:layout_below="@id/usernamepassword"
+            android:layout_centerHorizontal="true"
 android:background="@drawable/buttonforlogincircle"
             android:src="@drawable/ic_arrow_forward_black_24dp" />
 
@@ -106,20 +97,16 @@ android:background="@drawable/buttonforlogincircle"
 
 <com.google.android.gms.common.SignInButton
     android:layout_width="match_parent"
-    android:layout_marginRight="50dp"
-    android:layout_marginLeft="50dp"
     android:layout_height="wrap_content"
-    android:id="@+id/gsi"
-    android:layout_marginTop="10dp"
     android:layout_below="@id/Register"
-    >
-</com.google.android.gms.common.SignInButton>
-
+    android:layout_marginTop="20dp"
+    android:id="@+id/googlesign"
+    ></com.google.android.gms.common.SignInButton>
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="Click Here so Sign In with Phone"
-    android:layout_below="@id/gsi"
+    android:layout_below="@id/googlesign"
     android:gravity="center"
     android:textSize="16sp"
     android:id="@+id/phonelogin"
