@@ -18,7 +18,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sayaji Hotel"
+                android:text="Flipkart Gift Vouchers"
                 android:textStyle="bold"
                 android:textSize="25sp"
                 android:padding="5dp"/>
@@ -29,33 +29,11 @@
                 android:src="@drawable/ic_launcher_background"
                 android:scaleType="centerCrop"/>
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vijay Nagar Indore"
-                android:textSize="15sp"
-                android:padding="5dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Email: hotel@hotel.com"
-                android:textSize="15sp"
-                android:padding="5dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Manager Name: ABC"
-                android:textSize="15sp"
-                android:padding="5dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Manager Email: email@email.com"
-                android:textSize="15sp"
-                android:padding="5dp"/>
+                android:onClick="buyClick"
+                android:text="BUY"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -45,6 +45,35 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:901646256624:android:f445bfc2d4915f70",
+        "android_client_info": {
+          "package_name": "com.icy.chatscreen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901646256624-2p3on87tr0ndmqe509091bsqsehr1qg6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoAtY33JBlNe7nEztItWDudDQeV_CJqT4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901646256624-2p3on87tr0ndmqe509091bsqsehr1qg6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:901646256624:android:43dab0aa578e5c7e",
         "android_client_info": {
           "package_name": "com.s3infosoft.loyaltyapp"
