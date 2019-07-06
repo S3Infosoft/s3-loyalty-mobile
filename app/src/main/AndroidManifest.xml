@@ -9,9 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewsActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+        <activity
+            android:name=".LandingActivity"
+            android:label="Loyalty App"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".SpecialDealsActivity" />
         <activity android:name=".ProductActivity" />
         <activity android:name=".HotelActivity" />

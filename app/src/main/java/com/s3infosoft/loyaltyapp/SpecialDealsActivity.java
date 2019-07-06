@@ -85,7 +85,7 @@ public class SpecialDealsActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view, int position) {
-                Intent i = new Intent(SpecialDealsActivity.this, NewsActivity.class);
+                Intent i = new Intent(SpecialDealsActivity.this, HotelActivity.class);
                 startActivity(i);
             }
 
