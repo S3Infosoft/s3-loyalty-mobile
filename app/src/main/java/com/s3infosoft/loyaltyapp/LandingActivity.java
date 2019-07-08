@@ -1,5 +1,6 @@
 package com.s3infosoft.loyaltyapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,6 +24,8 @@ import android.view.Menu;
 
 public class LandingActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class LandingActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.landing, menu);
+        this.menu = menu;
         return true;
     }
 
@@ -64,7 +68,9 @@ public class LandingActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_points) {
+            MenuItem menuItem = menu.findItem(R.id.action_points);
+            menuItem.setTitle("0 PTS");
             return true;
         }
 
@@ -79,10 +85,12 @@ public class LandingActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
+        } else if (id == R.id.nav_history) {
+            Intent i = new Intent(this, OrderHistoryActivity.class);
+            startActivity(i);
+        } else if (id == R.id.nav_tools) {
+            Intent i = new Intent(LandingActivity.this, PurchaseActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
