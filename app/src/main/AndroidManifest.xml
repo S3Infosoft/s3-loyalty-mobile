@@ -11,30 +11,31 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".OrderHistoryActivity"
-            android:label="@string/title_activity_order_history"
+            android:label="Order History"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".PurchaseActivity"
-            android:label="@string/title_activity_purchase"
+            android:label="Buy Points"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".LandingActivity"
+            android:name=".MainActivity"
             android:label="Loyalty App"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SpecialDealsActivity" />
         <activity android:name=".ProductActivity" />
-        <activity android:name=".HotelActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".RedeemActivity" />
+        <activity android:name=".LandingActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Loy App">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <meta-data
-                android:name="com.razorpay.ApiKey"
-                android:value="rzp_test_usYqweKcoGE7oB" />
         </activity>
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_WcDXqhe1knpIwW" />
     </application>
 
 </manifest>
