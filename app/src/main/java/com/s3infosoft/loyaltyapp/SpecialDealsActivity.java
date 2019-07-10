@@ -16,10 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.s3infosoft.loyaltyapp.adapter.HotelsAdapter;
 import com.s3infosoft.loyaltyapp.adapter.SpecialDealAdapter;
-import com.s3infosoft.loyaltyapp.model.Hotel;
-import com.s3infosoft.loyaltyapp.model.Metadata;
 import com.s3infosoft.loyaltyapp.model.SpecialDeal;
 
 import java.util.ArrayList;
@@ -85,7 +82,7 @@ public class SpecialDealsActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view, int position) {
-                Intent i = new Intent(SpecialDealsActivity.this, HotelActivity.class);
+                Intent i = new Intent(SpecialDealsActivity.this, RedeemActivity.class);
                 startActivity(i);
             }
 

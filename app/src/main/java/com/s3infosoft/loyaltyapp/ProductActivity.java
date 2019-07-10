@@ -96,7 +96,7 @@ public class ProductActivity extends AppCompatActivity {
             }
         }));
 
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg"));
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
 
         productAdapter = new ProductAdapter(this, products);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());

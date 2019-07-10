@@ -16,13 +16,14 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.s3infosoft.loyaltyapp.R;
 import com.s3infosoft.loyaltyapp.model.Hotel;
+import com.s3infosoft.loyaltyapp.model.Order;
 import com.s3infosoft.loyaltyapp.model.Product;
 
 import java.util.List;
 
 public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.MyViewHolder> {
 
-    private List<Product> products;
+    private List<Order> orders;
     Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -36,10 +37,10 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         }
     }
 
-    public OrderHistoryAdapter(Context context, List<Product> products)
+    public OrderHistoryAdapter(Context context, List<Order> orders)
     {
         this.context = context;
-        this.products = products;
+        this.orders = orders;
     }
 
     @NonNull
@@ -52,13 +53,13 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.tv1.setText(products.get(position).getName());
-        holder.tv2.setText(products.get(position).getDesc());
+        holder.tv1.setText(orders.get(position).getDesc());
+        holder.tv2.setText("Amount : "+orders.get(position).getPoints());
         //Glide.with(context).load(products.get(position).getLogo_url()).into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-        return products.size();
+        return orders.size();
     }
 }

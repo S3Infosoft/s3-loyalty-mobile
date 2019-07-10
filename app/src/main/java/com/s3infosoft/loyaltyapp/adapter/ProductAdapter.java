@@ -26,7 +26,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView tv1, tv2;
+        public TextView tv1, tv2, tv3;
         public ImageView imageView;
 
         public MyViewHolder(View view)
@@ -34,6 +34,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
             super(view);
             tv1 = (TextView) view.findViewById(R.id.product_name);
             tv2 = (TextView) view.findViewById(R.id.product_desc);
+            tv3 = (TextView) view.findViewById(R.id.product_points);
             imageView = (ImageView) view.findViewById(R.id.logo_url);
         }
     }
@@ -56,6 +57,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
 
         holder.tv1.setText(products.get(position).getName());
         holder.tv2.setText(products.get(position).getDesc());
+        holder.tv3.setText(""+products.get(position).getPoints()+" PTS");
         Glide.with(context).load(products.get(position).getLogo_url()).into(holder.imageView);
     }
 
