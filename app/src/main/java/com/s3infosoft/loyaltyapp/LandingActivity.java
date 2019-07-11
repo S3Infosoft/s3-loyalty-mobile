@@ -12,6 +12,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,7 +20,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.s3infosoft.loyaltyapp.adapter.ProductAdapter;
+import com.s3infosoft.loyaltyapp.adapter.SpecialDealAdapter;
 import com.s3infosoft.loyaltyapp.model.Product;
+import com.s3infosoft.loyaltyapp.model.SpecialDeal;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -30,21 +33,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LandingActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Menu menu;
     List<Product> products = new ArrayList<>();
-    RecyclerView recyclerView;
+    List<SpecialDeal> specialDeals = new ArrayList<>();
+    RecyclerView recyclerView, recyclerView1;
     ProductAdapter productAdapter;
+    SpecialDealAdapter specialDealAdapter;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference, usersReference;
+    DatabaseReference databaseReference, usersReference, specialDealReference;
     int points;
+    String userLevel;
+    ImageView profile_img;
+    TextView user_level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +71,26 @@ public class LandingActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        profile_img = (ImageView) findViewById(R.id.profile_img);
+        Glide.with(this).load("https://miro.medium.com/max/1400/1*3kPOI1_HGuE0fPWBj_jnog.png").circleCrop().into(profile_img);
+
+        user_level = (TextView) findViewById(R.id.user_level);
+
         recyclerView = (RecyclerView) findViewById(R.id.recyler_view);
+        recyclerView1 = (RecyclerView) findViewById(R.id.recyler_view1);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("/product");
         usersReference = firebaseDatabase.getReference("/users/uid");
+        specialDealReference = firebaseDatabase.getReference("/special_deals");
+
         usersReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
                 points = Integer.parseInt(hashMap.get("points").toString());
+                userLevel = hashMap.get("level").toString();
+                user_level.setText(userLevel);
                 updatePoints(points);
             }
             @Override
@@ -88,6 +109,40 @@ public class LandingActivity extends AppCompatActivity
 
                     products.add(new Product(list.get("name").toString(), list.get("description").toString(), list.get("image_url").toString(), Integer.parseInt(list.get("required_points").toString())));
                     productAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        specialDealReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.v("#DDDD", dataSnapshot.getValue().toString());
+                for (DataSnapshot hotelSnapshot: dataSnapshot.getChildren())
+                {
+                    Log.v("#EEEE", hotelSnapshot.getValue().toString());
+                    List<String> image_urls = new ArrayList<String>();
+                    HashMap<String,Object> list = (HashMap<String, Object>) hotelSnapshot.getValue();
+                    Log.v("#####", list.get("images").toString());
+
+                    HashMap<String,Object> hashMap = (HashMap<String,Object>) list.get("images");
+
+                    Log.v("$$$$$", hashMap.toString());
+
+                    for (Map.Entry<String,Object> map : hashMap.entrySet())
+                    {
+                        HashMap<String,Object> m = (HashMap<String, Object>) map.getValue();
+                        Log.v("$$$$$", m.get("image_url").toString());
+                        image_urls.add(m.get("image_url").toString());
+                    }
+
+                    specialDeals.add(new SpecialDeal(list.get("name").toString(), list.get("description").toString(), image_urls, 8000));
+                    //Log.v("#####", list.get("name")+" "+list.get("metadata").toString());
+                    specialDealAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -119,10 +174,16 @@ public class LandingActivity extends AppCompatActivity
         //products.add(new Product("Starbucks Gift Vouchers", "Spend for Any thing", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQT-YzeUzQGQtzPR1K88rKh6CfP_mVwNHMB4Y_T8wVSiYvnhgNQr_cQSfg", 5000));
 
         productAdapter = new ProductAdapter(this, products);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(productAdapter);
+
+        specialDealAdapter = new SpecialDealAdapter(this, specialDeals);
+        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView1.setLayoutManager(layoutManager1);
+        recyclerView1.setItemAnimator(new DefaultItemAnimator());
+        recyclerView1.setAdapter(specialDealAdapter);
     }
 
     private void updatePoints(int points) {
@@ -142,7 +203,6 @@ public class LandingActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.landing, menu);
         this.menu = menu;
         return true;

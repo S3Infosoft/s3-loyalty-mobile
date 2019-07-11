@@ -43,18 +43,10 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         View itemView;
-            itemView = layoutInflater.inflate(R.layout.custom_layout, container, false);
-            ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-            Glide.with(context).load(image_urls.get(position)).into(imageView);
+        itemView = layoutInflater.inflate(R.layout.custom_layout, container, false);
+        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        Glide.with(context).load(image_urls.get(position)).into(imageView);
 
-            //listening to image click
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://bit.ly/2BwD1c6"));
-                    context.startActivity(i);
-                }
-            });
         container.addView(itemView);
 
         return itemView;

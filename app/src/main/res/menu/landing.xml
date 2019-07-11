@@ -5,5 +5,5 @@
         android:id="@+id/action_points"
         android:orderInCategory="100"
         android:title="0 PTS"
-        app:showAsAction="always" />
+        app:showAsAction="always"/>
 </menu>
