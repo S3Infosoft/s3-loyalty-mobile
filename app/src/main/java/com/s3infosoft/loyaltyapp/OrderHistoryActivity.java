@@ -55,12 +55,15 @@ public class OrderHistoryActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.v("#DDDD", dataSnapshot.getValue().toString());
-                for (DataSnapshot hotelSnapshot: dataSnapshot.getChildren())
+                if(dataSnapshot.exists())
                 {
-                    HashMap<String, Object> hashMap = (HashMap<String, Object>) hotelSnapshot.getValue();
+                    for (DataSnapshot hotelSnapshot: dataSnapshot.getChildren())
+                    {
+                        HashMap<String, Object> hashMap = (HashMap<String, Object>) hotelSnapshot.getValue();
 
-                    orders.add(new Order(hashMap.get("desc").toString(),Integer.parseInt(hashMap.get("amount").toString())));
-                    productAdapter.notifyDataSetChanged();
+                        orders.add(new Order(hashMap.get("desc").toString(),Integer.parseInt(hashMap.get("amount").toString())));
+                        productAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 
