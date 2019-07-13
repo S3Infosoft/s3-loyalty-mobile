@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="buyClick"
-                android:text="BUY"
+                android:text="Add to Cart"
                 android:layout_below="@+id/desc"/>
 
         </RelativeLayout>

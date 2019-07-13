@@ -14,6 +14,9 @@ import android.view.MenuItem;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,6 +59,8 @@ public class LandingActivity extends AppCompatActivity
     String userLevel;
     ImageView profile_img;
     TextView user_level;
+    FirebaseUser firebaseUser;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,21 @@ public class LandingActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "id");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "name");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setMinimumSessionDuration(10000);
+        mFirebaseAnalytics.setSessionTimeoutDuration(500);
+        mFirebaseAnalytics.setUserId(String.valueOf("idid"));
+        mFirebaseAnalytics.setUserProperty("Product", "Product Name");
+
         profile_img = (ImageView) findViewById(R.id.profile_img);
         Glide.with(this).load("https://miro.medium.com/max/1400/1*3kPOI1_HGuE0fPWBj_jnog.png").circleCrop().into(profile_img);
 
@@ -80,6 +100,7 @@ public class LandingActivity extends AppCompatActivity
         recyclerView1 = (RecyclerView) findViewById(R.id.recyler_view1);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
+
         databaseReference = firebaseDatabase.getReference("/product");
         usersReference = firebaseDatabase.getReference("/users/uid");
         specialDealReference = firebaseDatabase.getReference("/special_deals");
@@ -170,6 +191,24 @@ public class LandingActivity extends AppCompatActivity
             }
         }));
 
+        recyclerView1.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView1, new RecyclerTouchListener.ClickListener() {
+
+            @Override
+            public void onClick(View view, int position) {
+                Intent i = new Intent(LandingActivity.this, ReservationActivity.class);
+                i.putExtra("name", products.get(position).getName());
+                i.putExtra("desc", products.get(position).getDesc());
+                i.putExtra("logo_url", products.get(position).getLogo_url());
+                i.putExtra("points", products.get(position).getPoints());
+                startActivity(i);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
         //products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 5000));
         //products.add(new Product("Starbucks Gift Vouchers", "Spend for Any thing", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQT-YzeUzQGQtzPR1K88rKh6CfP_mVwNHMB4Y_T8wVSiYvnhgNQr_cQSfg", 5000));
 
@@ -213,6 +252,10 @@ public class LandingActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.action_points) {
             return true;
+        }
+        else if(id == R.id.action_cart) {
+            Intent i = new Intent(this, CartActivity.class);
+            startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);

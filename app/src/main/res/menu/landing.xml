@@ -6,4 +6,10 @@
         android:orderInCategory="100"
         android:title="0 PTS"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_cart"
+        android:orderInCategory="100"
+        android:title="Cart"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_cart"/>
 </menu>
