@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,27 +26,29 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-/*
-    ListView listView;
-    EditText editText;
-    Button button;
-    List<String> l1;
-    ArrayAdapter<String> adapter1;
-*/
 
 //GSO
 private FirebaseAuth mAuth;
@@ -88,6 +92,9 @@ ImageButton imgsign;
                             if(task.isSuccessful()){
                                 if(mAuth.getCurrentUser().isEmailVerified()){
                                 Toast.makeText(MainActivity.this, "Sign In Success", Toast.LENGTH_SHORT).show();
+
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
                             Snackbar.make(view,"Sign In Succesful",Snackbar.LENGTH_LONG).show();
                             Intent i = new Intent(MainActivity.this,SettingsActivity.class);
                             startActivity(i);
@@ -132,39 +139,6 @@ ImageButton imgsign;
 
 
 
-
-
-
-
-
-
-
-
-
-     /*   listView = findViewById(R.id.recyv);
-        l1= new ArrayList<String>();
-        editText = findViewById(R.id.message);
-        button=findViewById(R.id.sendbut);
-
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String msg= editText.getText().toString();
-                l1.add("You :  "+msg);
-                xyz x = new xyz();
-                String ans=x.xyz1(msg);
-                l1.add("S3Bot :  "+ans);
-                listView.setAdapter(adapter1);
-                editText.setText("");
-            }
-        });
-
-        adapter1 = new ArrayAdapter<String>(this,R.layout.messagereceived,R.id.receivemsg,l1);
-        l1.add(" S3Bot : Hello , I am Your Virtual Assistant , you can ask me the Queries related to this application.");
-        listView.setAdapter(adapter1);
-*/
-
                 signinwithphone.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -176,8 +150,15 @@ ImageButton imgsign;
                 });
 
                 registernew.setOnClickListener(new View.OnClickListener() {
+
+
                     @Override
                     public void onClick(View view) {
+
+FirebaseFirestore db = FirebaseFirestore.getInstance();
+Map<String,Object> s3inf = new HashMap<>();
+s3inf.put("Sign In","Time value ");
+db.collection("First").document("sample123").collection("Regsters").add(s3inf);
                         Intent i = new Intent(MainActivity.this,ListItem.class);
                         startActivity(i);
                         finish();
@@ -222,6 +203,48 @@ ImageButton imgsign;
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(MainActivity.this, "Sign in Success", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
+                            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(MainActivity.this);
+                            if(acct!=null){
+
+                                    String personName = acct.getDisplayName();
+                                    String personGivenName = acct.getGivenName();
+                                    String personFamilyName = acct.getFamilyName();
+                                    String personEmail = acct.getEmail();
+                                    String personId = acct.getId();
+                                String model = Build.MODEL;
+                                String Manuf = Build.MANUFACTURER;
+                                String Brand = Build.BRAND;
+                                String Device = Build.DEVICE;
+                                String hard= Build.HARDWARE;
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                Map<String,Object> userdet=new HashMap<>();
+                                userdet.put("personEmail",personEmail);
+                                userdet.put("personname",personName);
+                                userdet.put("personGivenName",personGivenName);
+                                userdet.put("personID",personId);
+                                userdet.put("MODEL",model);
+                                userdet.put("Manufacturer",Manuf);
+                                userdet.put("Brand",Brand);
+                                userdet.put("Device",Device);
+                                userdet.put("Hardware",hard);
+                                long timein=System.currentTimeMillis();
+                                Date ds = new Date(timein);
+                                String s3un=personName+ds;
+                                db.collection("First").document(s3un).set(userdet).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(MainActivity.this, "Relogin", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                            Intent i = new Intent(MainActivity.this,SettingsActivity.class);
+                            startActivity(i);
+                            finish();
                         } else {
                             // If sign in fails, display a message to th
                             Toast.makeText(MainActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
@@ -249,12 +272,16 @@ ImageButton imgsign;
     public void onStart()
     {
         super.onStart();
-        FirebaseAuth.getInstance().signOut();
-
+       // String timetemp = String.valueOf(Timestamp.now());
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser!=null){
-            FirebaseAuth.getInstance().signOut();
+            if(currentUser.isEmailVerified()) {
+                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(i);
+                finish();
+            }
+//            FirebaseAuth.getInstance().signOut();
         }
     }
 

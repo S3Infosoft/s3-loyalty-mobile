@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
@@ -20,19 +21,24 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import static com.google.android.material.snackbar.Snackbar.*;
 import java.util.Arrays;
-
-
+import java.util.Map;
 
 
 public class ListItem extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -150,6 +156,38 @@ marriagedatepicker = new DatePickerDialog.OnDateSetListener() {
                                     fbmrgdate
 
                             );
+
+                            long timein=System.currentTimeMillis();
+                            Date ds = new Date(timein);
+                            String dateanuko=String.valueOf(ds);
+                            String model = Build.MODEL;
+                            String Manuf = Build.MANUFACTURER;
+                            String Brand = Build.BRAND;
+                            String Device = Build.DEVICE;
+                            String hard= Build.HARDWARE;
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            Map<String,Object> userdet=new HashMap<>();
+                            userdet.put("MODEL",model);
+                            userdet.put("Manufacturer",Manuf);
+                            userdet.put("Brand",Brand);
+                            userdet.put("Device",Device);
+                            userdet.put("Hardware",hard);
+                            userdet.put("date",dateanuko);
+                            userdet.put("Registered",true);
+                            String s3un = fbfn+fbln+(ds);
+                            db.collection("First").document(s3un).set(userdet).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+
+
                             FirebaseDatabase.getInstance().getReference("Users").
                                     child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
                                     setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -159,6 +197,7 @@ marriagedatepicker = new DatePickerDialog.OnDateSetListener() {
 
                                         Toast.makeText(ListItem.this, "Succesful", Toast.LENGTH_SHORT).show();
                                         Snackbar.make(view,"Data Stored Succesfully",LENGTH_SHORT).show();
+
                                     }else{
                                         Toast.makeText(ListItem.this, "Data not stored succesfully", Toast.LENGTH_SHORT).show();
                                     }

@@ -81,8 +81,8 @@ l2.add("which");
         l3=new ArrayList<String>();
 
             if ((Pattern.matches("(.*)change(.*)password(.*)", st.toLowerCase()))) {
-                FirebaseAuth.getInstance().sendPasswordResetEmail("varun.001raone@gmail.com");
-                return ("You can Change your password by Going to Settings -> Change My Password  -> Enter Your New Password  ");
+//                FirebaseAuth.getInstance().sendPasswordResetEmail("varun.001raone@gmail.com");
+                return ("You can Change your password by Going to Settings -> Change My Password  -> Enter Your New Password -> Done ");
             } else if (Pattern.matches("(.*)payment(.*)mode(.*)", st.toLowerCase())) {
                 return ("At Present we support Payments with Credit cards and Debit cards / Net Banking ");
             } else if (Pattern.matches("(.*)cancel(.*)order(.*)", st.toLowerCase())) {
@@ -94,9 +94,9 @@ l2.add("which");
             } else if (Pattern.matches("(.*)complaint(.*)", st.toLowerCase())) {
                 return ("You can send your complaints or Suggestions or requests or any other kind of Queries to our email address , we will definitely get back to you in 24 hours.\n Email -> s3infosot@gmail.com");
             } else if (Pattern.matches("(.*)change(.*)mail(.*)", st.toLowerCase())) {
-                FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-                user.updateEmail("varunsharma@gmail.com");
-                return ("Your email has been updated succesfully to varunsharma@gmail.com ,You can also change your email id by going to Settings -> Change Email Address -> Verify -> Done");
+//                FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+//                user.updateEmail("varunsharma@gmail.com");
+                return ("You can change your email id by going to Settings -> Change Email Address -> Verify -> Done");
             } else if (Pattern.matches("(.*)use(.*)points(.*)", st.toLowerCase()) || Pattern.matches("(.*)role(.*)points(.*)", st.toLowerCase())) {
                 return ("You can use your Points to Buy Awesome Deals , You can purchase amazon gift cards , Vouchers , You can book hotels , just select some deal of your choice from the available deals and then click on Proceed to Pay and Confirm and Check Out . You are all done , You have succesfully used your points to buy awesome deals.");
             } else if (Pattern.matches("(.*)purchase(.*)points(.*)", st.toLowerCase())) {
