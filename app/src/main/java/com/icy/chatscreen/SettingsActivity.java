@@ -10,7 +10,9 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.auth.FirebaseAuth;
+import com.s3infosoft.loyaltyapp.R;
 
 import java.util.ArrayList;
 import java.util.List;

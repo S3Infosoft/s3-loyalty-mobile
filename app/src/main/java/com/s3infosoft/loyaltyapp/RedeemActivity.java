@@ -113,7 +113,6 @@ public class RedeemActivity extends AppCompatActivity {
                     AlertDialog alert = builder.create();
                     alert.setTitle("Order Failed");
                     alert.show();
-                    Toast.makeText(getApplicationContext(), "User is not Logged in", Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -52,6 +52,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "901646256624-todqj2lhq1dimbhn82mjv8e4527e7mtl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.icy.chatscreen",
+            "certificate_hash": "728a70667cc82e2408332c5620697164ecdaf4e2"
+          }
+        },
+        {
           "client_id": "901646256624-2p3on87tr0ndmqe509091bsqsehr1qg6.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.icy.chatscreen.SettingsActivity;
 import com.s3infosoft.loyaltyapp.adapter.ProductAdapter;
 import com.s3infosoft.loyaltyapp.adapter.SpecialDealAdapter;
 import com.s3infosoft.loyaltyapp.model.Product;
@@ -92,8 +93,14 @@ public class LandingActivity extends AppCompatActivity
         mFirebaseAnalytics.setUserProperty("Product", "Product Name");
 
         profile_img = (ImageView) findViewById(R.id.profile_img);
-        Glide.with(this).load("https://miro.medium.com/max/1400/1*3kPOI1_HGuE0fPWBj_jnog.png").circleCrop().into(profile_img);
-
+        if(firebaseUser.getPhotoUrl()==null)
+        {
+            Glide.with(this).load("https://image.shutterstock.com/image-illustration/creative-illustration-default-avatar-profile-600w-1400808113.jpg").circleCrop().into(profile_img);
+        }
+        else
+        {
+            Glide.with(this).load(firebaseUser.getPhotoUrl()).circleCrop().into(profile_img);
+        }
         user_level = (TextView) findViewById(R.id.user_level);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyler_view);
@@ -267,15 +274,17 @@ public class LandingActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_history) {
+        if (id == R.id.nav_history) {
             Intent i = new Intent(this, OrderHistoryActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_tools) {
             Intent i = new Intent(LandingActivity.this, PurchaseActivity.class);
             startActivity(i);
-        }
+
+    } else if (id == R.id.nav_settings) {
+        Intent i = new Intent(LandingActivity.this, SettingsActivity.class);
+        startActivity(i);
+    }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

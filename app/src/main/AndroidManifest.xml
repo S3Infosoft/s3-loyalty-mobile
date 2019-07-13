@@ -5,7 +5,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Select Hotel"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -19,10 +19,6 @@
             android:name=".PurchaseActivity"
             android:label="Buy Points"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".MainActivity"
-            android:label="Loyalty App"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SpecialDealsActivity" />
         <activity android:name=".ProductActivity" />
         <activity android:name=".RedeemActivity" />
@@ -30,16 +26,31 @@
             android:name=".LandingActivity"
             android:label="Loy App"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_WcDXqhe1knpIwW" />
+
+        <activity android:name="com.icy.chatscreen.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name="com.icy.chatscreen.phonenumberlogin"/>
+        <activity android:name="com.icy.chatscreen.ListItem"/>
+        <activity android:name="com.icy.chatscreen.samplechatbot"/>
+        <activity android:name="com.icy.chatscreen.Chuser"/>
+        <activity android:name="com.icy.chatscreen.Chphone"/>
+        <activity android:name="com.icy.chatscreen.ChEmail"/>
+        <activity android:name="com.icy.chatscreen.Chpass"/>
+        <activity android:name="com.icy.chatscreen.SettingsActivity"/>
+        <activity android:name="com.icy.chatscreen.AcctDet"/>
         <meta-data
-            android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_WcDXqhe1knpIwW" />
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
