@@ -77,8 +77,6 @@ public class CartActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view, int position) {
-                Intent i = new Intent(CartActivity.this, SpecialDealsActivity.class);
-                startActivity(i);
             }
 
             @Override
