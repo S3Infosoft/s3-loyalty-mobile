@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <RelativeLayout
+        android:id="@+id/headofhead"
+        android:background="@drawable/backlogin"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/usernamepassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/usernametv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/usernameet"
+                android:layout_alignBottom="@id/usernameet"
+                android:fontFamily="@font/autour_one"
+                android:gravity="center"
+                android:text="   Email ID   "
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/passwordtv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/usernametv"
+                android:layout_alignLeft="@id/usernametv"
+                android:layout_alignTop="@id/passwordet"
+                android:layout_alignRight="@id/usernametv"
+                android:layout_alignBottom="@id/passwordet"
+                android:fontFamily="@font/autour_one"
+                android:gravity="center"
+                android:text="Password"
+                android:textSize="14sp" />
+
+        <EditText
+            android:fontFamily="@font/baumans"
+            android:gravity="center"
+            android:id="@+id/usernameet"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/usernametv"
+            android:hint="   Email Address   " />
+
+        <EditText
+            android:fontFamily="@font/baumans"
+            android:gravity="center"
+            android:id="@+id/passwordet"
+            android:layout_alignLeft="@id/usernameet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/usernameet"
+            android:layout_alignRight="@id/usernameet"
+            android:layout_toRightOf="@id/passwordtv"
+            android:hint="Password" />
+
+        </RelativeLayout>
+
+        <ImageButton
+android:id="@+id/imagesignin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/usernamepassword"
+            android:layout_centerHorizontal="true"
+android:background="@drawable/buttonforlogincircle"
+            android:src="@drawable/ic_arrow_forward_black_24dp" />
+
+    </RelativeLayout>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headofhead"
+        android:layout_alignRight="@id/headofhead"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:layout_marginRight="40dp"
+        android:textSize="17sp"
+        android:text="Click here to Register"
+        android:background="#fff"
+        android:id="@+id/Register"
+        android:fontFamily="@font/boogaloo"
+        />
+
+<com.google.android.gms.common.SignInButton
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/Register"
+    android:layout_marginTop="20dp"
+    android:id="@+id/googlesign"
+    ></com.google.android.gms.common.SignInButton>
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Click Here so Sign In with Phone"
+    android:layout_below="@id/googlesign"
+    android:gravity="center"
+    android:textSize="16sp"
+    android:id="@+id/phonelogin"
+    android:fontFamily="@font/atomic_age"
+    android:layout_marginTop="30dp"
+    />
+
+
+
+
+
+
+
+
+
+</RelativeLayout>
