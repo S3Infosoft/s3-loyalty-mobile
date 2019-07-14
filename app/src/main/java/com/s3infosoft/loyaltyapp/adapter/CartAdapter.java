@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +30,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView tv1, tv2, tv3;
         public ImageView imageView;
+        public Button plus, minus, remove;
+        public EditText quantity;
 
         public MyViewHolder(View view)
         {
@@ -36,6 +40,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
             tv2 = (TextView) view.findViewById(R.id.product_desc);
             tv3 = (TextView) view.findViewById(R.id.product_points);
             imageView = (ImageView) view.findViewById(R.id.logo_url);
+            minus = (Button) view.findViewById(R.id.minus);
+            quantity = (EditText) view.findViewById(R.id.quantity);
+            plus = (Button) view.findViewById(R.id.plus);
         }
     }
 
@@ -53,12 +60,30 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
         holder.tv1.setText(products.get(position).getName());
         holder.tv2.setText(products.get(position).getDesc());
         holder.tv3.setText(""+products.get(position).getPoints()+" PTS");
         Glide.with(context).load(products.get(position).getLogo_url()).into(holder.imageView);
+
+        holder.minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int count = Integer.parseInt(holder.quantity.getText().toString());
+                holder.quantity.setText(""+--count);
+                holder.tv3.setText(""+(count*products.get(position).getPoints())+" PTS");
+            }
+        });
+
+        holder.plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int count = Integer.parseInt(holder.quantity.getText().toString());
+                holder.quantity.setText(++count+"");
+                holder.tv3.setText(""+(count*products.get(position).getPoints())+" PTS");
+            }
+        });
     }
 
     @Override

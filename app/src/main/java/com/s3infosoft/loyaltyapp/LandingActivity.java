@@ -267,9 +267,7 @@ public class LandingActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_history) {
+        if (id == R.id.nav_history) {
             Intent i = new Intent(this, OrderHistoryActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_tools) {
