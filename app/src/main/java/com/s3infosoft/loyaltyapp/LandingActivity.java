@@ -48,7 +48,7 @@ import java.util.Map;
 public class LandingActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Menu menu = null;
+    Menu menu;
     List<Product> products = new ArrayList<>();
     List<SpecialDeal> specialDeals = new ArrayList<>();
     RecyclerView recyclerView, recyclerView1;
@@ -56,7 +56,7 @@ public class LandingActivity extends AppCompatActivity
     SpecialDealAdapter specialDealAdapter;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference, usersReference, specialDealReference;
-    int points;
+    int points = 0;
     String userLevel;
     ImageView profile_img;
     TextView user_level;
@@ -112,20 +112,6 @@ public class LandingActivity extends AppCompatActivity
         databaseReference = firebaseDatabase.getReference("/product");
         usersReference = firebaseDatabase.getReference("/users/uid");
         specialDealReference = firebaseDatabase.getReference("/special_deals");
-
-        usersReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                points = Integer.parseInt(hashMap.get("points").toString());
-                userLevel = hashMap.get("level").toString();
-                user_level.setText(userLevel);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -251,7 +237,20 @@ public class LandingActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.landing, menu);
         this.menu = menu;
-        updatePoints(points);
+        usersReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
+                points = Integer.parseInt(hashMap.get("points").toString());
+                userLevel = hashMap.get("level").toString();
+                user_level.setText(userLevel);
+                updatePoints(points);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         return true;
     }
 
@@ -288,5 +287,10 @@ public class LandingActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return false;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 }
