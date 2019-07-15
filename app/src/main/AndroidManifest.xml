@@ -1,40 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="com.icy.chatscreen">
+    package="com.s3infosoft.loyaltyapp">
 
-
-<dist:module dist:instant="true"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:hardwareAccelerated="true"
-        android:largeHeap="true"
+        android:label="Select Hotel"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ReservationActivity"></activity>
+        <activity android:name=".CartActivity" />
+        <activity
+            android:name=".OrderHistoryActivity"
+            android:label="Order History"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PurchaseActivity"
+            android:label="Buy Points"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MainActivity"
+            android:label="Loyalty App"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SpecialDealsActivity" />
+        <activity android:name=".ProductActivity" />
+        <activity android:name=".RedeemActivity" />
+        <activity
+            android:name=".LandingActivity"
+            android:label="Loy App"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+        </activity>
+      <activity android:name="com.icy.chatscreen.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".phonenumberlogin"/>
-        <activity android:name=".ListItem"/>
-        <activity android:name=".samplechatbot"/>
-      <activity android:name=".Chuser"/>
-        <activity android:name=".Chphone"/>
-        <activity android:name=".ChEmail"/>
-        <activity android:name=".Chpass"/>
-        <activity android:name=".SettingsActivity"/>
-        <activity android:name=".AcctDet"/>
+        <activity android:name="com.icy.chatscreen.phonenumberlogin"/>
+        <activity android:name="com.icy.chatscreen.ListItem"/>
+        <activity android:name="com.icy.chatscreen.samplechatbot"/>
+      <activity android:name="com.icy.chatscreen.Chuser"/>
+        <activity android:name="com.icy.chatscreen.Chphone"/>
+        <activity android:name="com.icy.chatscreen.ChEmail"/>
+        <activity android:name="com.icy.chatscreen.Chpass"/>
+        <activity android:name="com.icy.chatscreen.SettingsActivity"/>
+        <activity android:name="com.icy.chatscreen.AcctDet"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+      <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_WcDXqhe1knpIwW" />
     </application>
-
 </manifest>
