@@ -3,6 +3,7 @@
     package="com.s3infosoft.loyaltyapp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 
     <application
         android:allowBackup="true"
@@ -33,14 +34,28 @@
             android:label="Loy App"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
+        </activity>
+      <activity android:name="com.icy.chatscreen.MainActivity">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.icy.chatscreen.phonenumberlogin"/>
+        <activity android:name="com.icy.chatscreen.ListItem"/>
+        <activity android:name="com.icy.chatscreen.samplechatbot"/>
+      <activity android:name="com.icy.chatscreen.Chuser"/>
+        <activity android:name="com.icy.chatscreen.Chphone"/>
+        <activity android:name="com.icy.chatscreen.ChEmail"/>
+        <activity android:name="com.icy.chatscreen.Chpass"/>
+        <activity android:name="com.icy.chatscreen.SettingsActivity"/>
+        <activity android:name="com.icy.chatscreen.AcctDet"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
       <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_test_WcDXqhe1knpIwW" />
     </application>
-
 </manifest>
