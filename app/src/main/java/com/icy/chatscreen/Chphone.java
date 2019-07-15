@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.s3infosoft.loyaltyapp.R;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class Chphone extends AppCompatActivity {
@@ -56,7 +57,7 @@ public class Chphone extends AppCompatActivity {
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseUser=firebaseAuth.getCurrentUser();
         userid=firebaseUser.getUid();
-        databaseReference=firebaseDatabase.getReference();
+        databaseReference=firebaseDatabase.getReference("/Users/"+userid);
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -147,12 +148,11 @@ if(entredotp.equals(thisislolab)){
         }
     };
 
-    private void showdata(DataSnapshot dataSnapshot) {
-        for (DataSnapshot ds:dataSnapshot.getChildren()) {
-            GetInfoFIre gs= new GetInfoFIre();
-            gs.setPhonenum(ds.child(userid).getValue(GetInfoFIre.class).getPhonenum());
-            Toast.makeText(this, "Your Current Phone Number is "+gs.getPhonenum(), Toast.LENGTH_SHORT).show();
+    private void showdata(DataSnapshot ds) {
+        HashMap<String, Object> hashMap = (HashMap<String, Object>) ds.getValue();
+        GetInfoFIre gs= new GetInfoFIre();
+        gs.setPhonenum(hashMap.get("phonenum").toString());
+        Toast.makeText(this, "Your Current Phone Number is "+gs.getPhonenum(), Toast.LENGTH_SHORT).show();
 
-        }
     }
 }
