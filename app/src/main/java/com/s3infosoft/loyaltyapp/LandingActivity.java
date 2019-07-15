@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.icy.chatscreen.SettingsActivity;
 import com.s3infosoft.loyaltyapp.adapter.ProductAdapter;
 import com.s3infosoft.loyaltyapp.adapter.SpecialDealAdapter;
 import com.s3infosoft.loyaltyapp.model.Product;
@@ -47,7 +48,7 @@ import java.util.Map;
 public class LandingActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Menu menu;
+    Menu menu = null;
     List<Product> products = new ArrayList<>();
     List<SpecialDeal> specialDeals = new ArrayList<>();
     RecyclerView recyclerView, recyclerView1;
@@ -92,7 +93,14 @@ public class LandingActivity extends AppCompatActivity
         mFirebaseAnalytics.setUserProperty("Product", "Product Name");
 
         profile_img = (ImageView) findViewById(R.id.profile_img);
-        Glide.with(this).load("https://miro.medium.com/max/1400/1*3kPOI1_HGuE0fPWBj_jnog.png").circleCrop().into(profile_img);
+        if (firebaseUser.getPhotoUrl() == null)
+        {
+            Glide.with(this).load("https://swopstakes.com/wp-content/themes/uncode-child-ss/images/user-profile.png").circleCrop().into(profile_img);
+        }
+        else
+        {
+            Glide.with(this).load(firebaseUser.getPhotoUrl()).circleCrop().into(profile_img);
+        }
 
         user_level = (TextView) findViewById(R.id.user_level);
 
@@ -112,7 +120,6 @@ public class LandingActivity extends AppCompatActivity
                 points = Integer.parseInt(hashMap.get("points").toString());
                 userLevel = hashMap.get("level").toString();
                 user_level.setText(userLevel);
-                updatePoints(points);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -244,6 +251,7 @@ public class LandingActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.landing, menu);
         this.menu = menu;
+        updatePoints(points);
         return true;
     }
 
@@ -257,7 +265,6 @@ public class LandingActivity extends AppCompatActivity
             Intent i = new Intent(this, CartActivity.class);
             startActivity(i);
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -272,6 +279,9 @@ public class LandingActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.nav_tools) {
             Intent i = new Intent(LandingActivity.this, PurchaseActivity.class);
+            startActivity(i);
+        } else if (id == R.id.nav_settings) {
+            Intent i = new Intent(LandingActivity.this, SettingsActivity.class);
             startActivity(i);
         }
 

@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.FirebaseDatabase;
+import com.s3infosoft.loyaltyapp.R;
 
 public class ChEmail extends AppCompatActivity {
     EditText et1,et2,pass;

@@ -36,11 +36,14 @@ public class RedeemActivity extends AppCompatActivity {
     TextView name, desc, pointsTextView;
     ImageView logo;
     int required_points = 0;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         getSupportActionBar().setTitle("Redeem Points");
         builder = new AlertDialog.Builder(this);
@@ -64,7 +67,7 @@ public class RedeemActivity extends AppCompatActivity {
     }
 
     public void buyClick(View view) {
-        databaseReference = firebaseDatabase.getReference("/order_history/uid");
+        databaseReference = firebaseDatabase.getReference("/order_history/"+firebaseUser.getUid());
         final DatabaseReference usersReference = firebaseDatabase.getReference("/users/uid");
         usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -122,5 +125,11 @@ public class RedeemActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 }

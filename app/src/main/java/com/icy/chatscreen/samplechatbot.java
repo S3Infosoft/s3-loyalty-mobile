@@ -10,6 +10,8 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.s3infosoft.loyaltyapp.R;
+
 import java.util.ArrayList;
 import java.util.List;
 

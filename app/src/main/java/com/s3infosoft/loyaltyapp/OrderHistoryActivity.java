@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +40,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
     OrderHistoryAdapter productAdapter;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +49,12 @@ public class OrderHistoryActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
         recyclerView = (RecyclerView) findViewById(R.id.recyler_view);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("/order_history/uid");
+        databaseReference = firebaseDatabase.getReference("/order_history/"+firebaseUser.getUid());
 
         databaseReference.orderByChild("date").addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,4 +101,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
         recyclerView.setAdapter(productAdapter);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 }

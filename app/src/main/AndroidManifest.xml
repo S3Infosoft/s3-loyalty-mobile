@@ -8,7 +8,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Select Hotel"
+        android:label="Loy App"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -33,7 +33,6 @@
             android:name=".LandingActivity"
             android:label="Loy App"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
         </activity>
       <activity android:name="com.icy.chatscreen.MainActivity">
             <intent-filter>

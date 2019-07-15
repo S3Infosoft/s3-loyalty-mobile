@@ -23,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.s3infosoft.loyaltyapp.LandingActivity;
+import com.s3infosoft.loyaltyapp.R;
 
 import java.util.concurrent.TimeUnit;
 
@@ -116,7 +118,7 @@ firebaseAuth=FirebaseAuth.getInstance();
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(phonenumberlogin.this, "You have signed in succesfully", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = task.getResult().getUser();
-                            Intent i = new Intent(phonenumberlogin.this,SettingsActivity.class);
+                            Intent i = new Intent(phonenumberlogin.this, LandingActivity.class);
                             startActivity(i);
                             finish();
 

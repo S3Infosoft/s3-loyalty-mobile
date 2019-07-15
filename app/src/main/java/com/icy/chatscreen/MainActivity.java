@@ -39,6 +39,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.s3infosoft.loyaltyapp.LandingActivity;
+import com.s3infosoft.loyaltyapp.R;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -96,7 +98,7 @@ ImageButton imgsign;
                                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                             Snackbar.make(view,"Sign In Succesful",Snackbar.LENGTH_LONG).show();
-                            Intent i = new Intent(MainActivity.this,SettingsActivity.class);
+                            Intent i = new Intent(MainActivity.this, LandingActivity.class);
                             startActivity(i);
                             finish();
                             }
@@ -242,7 +244,7 @@ db.collection("First").document("sample123").collection("Regsters").add(s3inf);
                                     }
                                 });
                             }
-                            Intent i = new Intent(MainActivity.this,SettingsActivity.class);
+                            Intent i = new Intent(MainActivity.this,LandingActivity.class);
                             startActivity(i);
                             finish();
                         } else {
@@ -277,7 +279,7 @@ db.collection("First").document("sample123").collection("Regsters").add(s3inf);
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser!=null){
             if(currentUser.isEmailVerified()) {
-                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                Intent i = new Intent(MainActivity.this, LandingActivity.class);
                 startActivity(i);
                 finish();
             }

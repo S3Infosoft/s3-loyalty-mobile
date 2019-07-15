@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.s3infosoft.loyaltyapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
