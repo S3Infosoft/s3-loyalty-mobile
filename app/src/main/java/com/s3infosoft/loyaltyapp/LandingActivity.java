@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.s3infosoft.loyaltyapp.adapter.ProductAdapter;
+import com.s3infosoft.loyaltyapp.adapter.ReservationHistoryAdapter;
 import com.s3infosoft.loyaltyapp.adapter.SpecialDealAdapter;
 import com.s3infosoft.loyaltyapp.model.Product;
 import com.s3infosoft.loyaltyapp.model.SpecialDeal;
@@ -37,6 +38,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -61,6 +63,7 @@ public class LandingActivity extends AppCompatActivity
     TextView user_level;
     FirebaseUser firebaseUser;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private ProgressBar progressBar1, progressBar2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +82,9 @@ public class LandingActivity extends AppCompatActivity
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        progressBar1 = (ProgressBar) findViewById(R.id.progressBar1);
+        progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
 
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "id");
@@ -130,6 +136,7 @@ public class LandingActivity extends AppCompatActivity
 
                     products.add(new Product(list.get("name").toString(), list.get("description").toString(), list.get("image_url").toString(), Integer.parseInt(list.get("required_points").toString())));
                     productAdapter.notifyDataSetChanged();
+                    progressBar1.setVisibility(View.GONE);
                 }
             }
 
@@ -164,6 +171,7 @@ public class LandingActivity extends AppCompatActivity
                     specialDeals.add(new SpecialDeal(list.get("name").toString(), list.get("description").toString(), image_urls, 8000));
                     //Log.v("#####", list.get("name")+" "+list.get("metadata").toString());
                     specialDealAdapter.notifyDataSetChanged();
+                    progressBar2.setVisibility(View.GONE);
                 }
             }
 
@@ -272,6 +280,9 @@ public class LandingActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.nav_tools) {
             Intent i = new Intent(LandingActivity.this, PurchaseActivity.class);
+            startActivity(i);
+        } else if (id == R.id.nav_reservation_history) {
+            Intent i = new Intent(LandingActivity.this, ReservationHistoryActivity.class);
             startActivity(i);
         }
 

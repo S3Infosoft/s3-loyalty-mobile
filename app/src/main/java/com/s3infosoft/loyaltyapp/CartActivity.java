@@ -1,7 +1,9 @@
 package com.s3infosoft.loyaltyapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -90,6 +92,33 @@ public class CartActivity extends AppCompatActivity {
             }
         }));
 
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return true;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                products.remove(viewHolder.getAdapterPosition());
+                productAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+            }
+        };
+
+        new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
+
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
+        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
         products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
 
         productAdapter = new CartAdapter(this, products);
