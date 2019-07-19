@@ -64,6 +64,7 @@ public class LandingActivity extends AppCompatActivity
     FirebaseUser firebaseUser;
     private FirebaseAnalytics mFirebaseAnalytics;
     private ProgressBar progressBar1, progressBar2;
+    List<String> keys;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +108,8 @@ public class LandingActivity extends AppCompatActivity
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
+        keys = new ArrayList<>();
+
         databaseReference = firebaseDatabase.getReference("/product");
         usersReference = firebaseDatabase.getReference("/users/uid");
         specialDealReference = firebaseDatabase.getReference("/special_deals");
@@ -132,6 +135,7 @@ public class LandingActivity extends AppCompatActivity
                 Log.v("#DDDD", dataSnapshot.getValue().toString());
                 for (DataSnapshot hotelSnapshot: dataSnapshot.getChildren())
                 {
+                    keys.add(hotelSnapshot.getKey());
                     HashMap<String,Object> list = (HashMap<String, Object>) hotelSnapshot.getValue();
 
                     products.add(new Product(list.get("name").toString(), list.get("description").toString(), list.get("image_url").toString(), Integer.parseInt(list.get("required_points").toString())));
@@ -190,6 +194,7 @@ public class LandingActivity extends AppCompatActivity
                 i.putExtra("desc", products.get(position).getDesc());
                 i.putExtra("logo_url", products.get(position).getLogo_url());
                 i.putExtra("points", products.get(position).getPoints());
+                i.putExtra("id", keys.get(position).toString());
                 startActivity(i);
             }
 

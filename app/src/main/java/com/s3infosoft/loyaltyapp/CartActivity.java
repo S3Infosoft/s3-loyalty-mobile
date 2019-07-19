@@ -19,6 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.s3infosoft.loyaltyapp.adapter.CartAdapter;
 import com.s3infosoft.loyaltyapp.adapter.ProductAdapter;
+import com.s3infosoft.loyaltyapp.db.DatabaseHandler;
+import com.s3infosoft.loyaltyapp.model.CartItem;
 import com.s3infosoft.loyaltyapp.model.Product;
 
 import java.util.ArrayList;
@@ -26,11 +28,12 @@ import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
 
-    List<Product> products = new ArrayList<>();
+    List<CartItem> cartItems = new ArrayList<>();
     RecyclerView recyclerView;
     CartAdapter productAdapter;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,42 +45,12 @@ public class CartActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recyler_view);
 
+        databaseHandler = new DatabaseHandler(this);
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("products");
 
-        /*databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.v("#DDDD", dataSnapshot.getValue().toString());
-                for (DataSnapshot hotelSnapshot: dataSnapshot.getChildren())
-                {
-                    Log.v("#EEEE", hotelSnapshot.getValue().toString());
-                    List<String> image_urls = new ArrayList<String>();
-                    HashMap<String,Object> list = (HashMap<String, Object>) hotelSnapshot.getValue();
-                    Log.v("#####", list.get("images").toString());
-
-                    HashMap<String,Object> hashMap = (HashMap<String,Object>) list.get("images");
-
-                    Log.v("$$$$$", hashMap.toString());
-
-                    for (Map.Entry<String,Object> map : hashMap.entrySet())
-                    {
-                        HashMap<String,Object> m = (HashMap<String, Object>) map.getValue();
-                        Log.v("$$$$$", m.get("image_url").toString());
-                        image_urls.add(m.get("image_url").toString());
-                    }
-
-                    hotels.add(new Hotel(list.get("name").toString(), list.get("address").toString(), list.get("manager_email").toString(), list.get("email").toString(), new Metadata(), list.get("logo_url").toString(), list.get("manager_name").toString(), image_urls));
-                    Log.v("#####", list.get("name")+" "+list.get("metadata").toString());
-                    hotelsAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
+        cartItems = databaseHandler.getAllCartItem();
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
 
@@ -100,28 +73,15 @@ public class CartActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                products.remove(viewHolder.getAdapterPosition());
+                cartItems.remove(viewHolder.getAdapterPosition());
+                databaseHandler.removeItem(cartItems.get(viewHolder.getAdapterPosition()).getItem_id());
                 productAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
         };
 
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
 
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
-        products.add(new Product("Flipkart Gift Vouchers", "Spend for Any thing you want to Buy", "https://www.underconsideration.com/brandnew/archives/flipkart_logo_detail_icon.jpg", 10000));
-
-        productAdapter = new CartAdapter(this, products);
+        productAdapter = new CartAdapter(this, cartItems);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

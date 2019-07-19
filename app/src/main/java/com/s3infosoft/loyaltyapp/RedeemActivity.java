@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.s3infosoft.loyaltyapp.db.DatabaseHandler;
+import com.s3infosoft.loyaltyapp.model.CartItem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +38,8 @@ public class RedeemActivity extends AppCompatActivity {
     TextView name, desc, pointsTextView;
     ImageView logo;
     int required_points = 0;
+    DatabaseHandler databaseHandler;
+    CartItem cartItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,8 @@ public class RedeemActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Redeem Points");
         builder = new AlertDialog.Builder(this);
+
+        databaseHandler = new DatabaseHandler(this);
 
         name = (TextView) findViewById(R.id.name);
         desc = (TextView) findViewById(R.id.desc);
@@ -60,11 +66,21 @@ public class RedeemActivity extends AppCompatActivity {
         desc.setText(i.getStringExtra("desc"));
         pointsTextView.setText(""+required_points+" PTS");
 
+        cartItem = new CartItem(name.getText().toString(), i.getStringExtra("id"), desc.getText().toString(), i.getStringExtra("logo_url"), 1, required_points);
+
         Glide.with(this).load(i.getStringExtra("logo_url")).into(logo);
     }
 
     public void buyClick(View view) {
-        databaseReference = firebaseDatabase.getReference("/order_history/uid");
+        if (databaseHandler.addItem(cartItem))
+        {
+            Toast.makeText(this, "Item Added to Cart", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(this, "Already in a Cart", Toast.LENGTH_SHORT).show();
+        }
+        /*databaseReference = firebaseDatabase.getReference("/order_history/uid");
         final DatabaseReference usersReference = firebaseDatabase.getReference("/users/uid");
         usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -121,6 +137,6 @@ public class RedeemActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
     }
 }

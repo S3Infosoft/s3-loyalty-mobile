@@ -17,6 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.s3infosoft.loyaltyapp.R;
+import com.s3infosoft.loyaltyapp.model.CartItem;
 import com.s3infosoft.loyaltyapp.model.Hotel;
 import com.s3infosoft.loyaltyapp.model.Product;
 
@@ -24,7 +25,7 @@ import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> {
 
-    private List<Product> products;
+    private List<CartItem> cartItems;
     Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -46,10 +47,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         }
     }
 
-    public CartAdapter(Context context, List<Product> products)
+    public CartAdapter(Context context, List<CartItem> cartItems)
     {
         this.context = context;
-        this.products = products;
+        this.cartItems = cartItems;
     }
 
     @NonNull
@@ -62,17 +63,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
-        holder.tv1.setText(products.get(position).getName());
-        holder.tv2.setText(products.get(position).getDesc());
-        holder.tv3.setText(""+products.get(position).getPoints()+" PTS");
-        Glide.with(context).load(products.get(position).getLogo_url()).into(holder.imageView);
+        holder.tv1.setText(cartItems.get(position).getItem_name());
+        holder.tv2.setText(cartItems.get(position).getItem_desc());
+        holder.tv3.setText(""+cartItems.get(position).getAmount()+" PTS");
+        Glide.with(context).load(cartItems.get(position).getItem_logo_url()).into(holder.imageView);
 
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int count = Integer.parseInt(holder.quantity.getText().toString());
                 holder.quantity.setText(""+--count);
-                holder.tv3.setText(""+(count*products.get(position).getPoints())+" PTS");
+                holder.tv3.setText(""+(count*cartItems.get(position).getAmount())+" PTS");
             }
         });
 
@@ -81,13 +82,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
             public void onClick(View view) {
                 int count = Integer.parseInt(holder.quantity.getText().toString());
                 holder.quantity.setText(++count+"");
-                holder.tv3.setText(""+(count*products.get(position).getPoints())+" PTS");
+                holder.tv3.setText(""+(count*cartItems.get(position).getAmount())+" PTS");
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return products.size();
+        return cartItems.size();
     }
 }
