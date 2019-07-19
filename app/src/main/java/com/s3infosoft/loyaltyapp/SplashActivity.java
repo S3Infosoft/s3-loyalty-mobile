@@ -18,6 +18,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 Intent i = new Intent(SplashActivity.this, LandingActivity.class);
                 startActivity(i);
+                finishAffinity();
             }
         }, 2500);
     }
