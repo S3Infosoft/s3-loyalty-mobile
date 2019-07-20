@@ -194,7 +194,7 @@ public class LandingActivity extends AppCompatActivity
                 i.putExtra("desc", products.get(position).getDesc());
                 i.putExtra("logo_url", products.get(position).getLogo_url());
                 i.putExtra("points", products.get(position).getPoints());
-                i.putExtra("id", keys.get(position).toString());
+                i.putExtra("id", keys.get(position));
                 startActivity(i);
             }
 

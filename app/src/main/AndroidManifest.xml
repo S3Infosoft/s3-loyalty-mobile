@@ -25,12 +25,10 @@
         <activity android:name=".CartActivity" />
         <activity
             android:name=".OrderHistoryActivity"
-            android:label="Order History"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Order History"/>
         <activity
             android:name=".PurchaseActivity"
-            android:label="Buy Points"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Buy Points"/>
         <activity
             android:name=".MainActivity"
             android:label="Loyalty App"
@@ -55,6 +53,10 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logo" />
     </application>
 
 </manifest>

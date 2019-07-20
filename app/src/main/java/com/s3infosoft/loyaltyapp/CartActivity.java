@@ -73,8 +73,8 @@ public class CartActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                cartItems.remove(viewHolder.getAdapterPosition());
                 databaseHandler.removeItem(cartItems.get(viewHolder.getAdapterPosition()).getItem_id());
+                cartItems.remove(viewHolder.getAdapterPosition());
                 productAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
         };
