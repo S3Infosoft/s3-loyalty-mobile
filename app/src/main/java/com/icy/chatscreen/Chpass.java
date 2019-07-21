@@ -1,6 +1,8 @@
 package com.icy.chatscreen;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
@@ -43,8 +45,19 @@ public class Chpass extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             Snackbar.make(view,"Password has been Changed Succesfully",Snackbar.LENGTH_LONG).show();
+                            CountDownTimer c = new CountDownTimer(3000,1000) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    startActivity(new Intent(Chpass.this,com.icy.chatscreen.MainActivity.class));
+                                }
+                            }.start();
                         }else{
-                            Snackbar.make(view,"Some Error Ocuured , Try again Later",Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(view,"Some Error Ocuured , Try again Later"+"\n"+task.getException(),Snackbar.LENGTH_LONG).show();
                         }
                     }
                 });

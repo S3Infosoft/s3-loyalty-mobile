@@ -2,7 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ff0"
     >
+
+
+    <TextView
+        android:id="@+id/idikudadeniki"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/autour_one"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_above="@id/headofhead"
+        android:layout_centerHorizontal="true"
+        android:text="   Sign In  "
+        android:textSize="36sp" />
 
 
     <RelativeLayout
@@ -48,6 +62,7 @@
             android:fontFamily="@font/baumans"
             android:gravity="center"
             android:id="@+id/usernameet"
+            android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"
@@ -60,11 +75,22 @@
             android:id="@+id/passwordet"
             android:layout_alignLeft="@id/usernameet"
             android:layout_width="match_parent"
+            android:inputType="textPassword"
             android:layout_height="wrap_content"
             android:layout_below="@id/usernameet"
             android:layout_alignRight="@id/usernameet"
             android:layout_toRightOf="@id/passwordtv"
             android:hint="Password" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/showpasswordbuddy"
+                android:src="@drawable/ic_action_eypass"
+                android:layout_alignEnd="@id/passwordet"
+                android:layout_alignRight="@id/passwordet"
+                android:layout_alignTop="@id/passwordet"
+                />
+
 
         </RelativeLayout>
 
@@ -79,6 +105,21 @@ android:background="@drawable/buttonforlogincircle"
 
     </RelativeLayout>
 
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headofhead"
+        android:layout_toLeftOf="@id/Register"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:layout_marginRight="40dp"
+        android:textSize="17sp"
+        android:text="Forgot Password"
+        android:background="#fff"
+        android:id="@+id/forgotpasswordmainaction"
+        android:fontFamily="@font/boogaloo"
+        />
 
     <Button
         android:layout_width="wrap_content"

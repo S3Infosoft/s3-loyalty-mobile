@@ -66,7 +66,7 @@ public class AcctDet extends AppCompatActivity {
     }
 
     private void showdata(DataSnapshot dataSnapshot) {
-        for (DataSnapshot ds:dataSnapshot.getChildren()) {
+            DataSnapshot ds = dataSnapshot.child("Users");
             GetInfoFIre g= new GetInfoFIre();
             g.setCity(ds.child(userid).getValue(GetInfoFIre.class).getCity());
             g.setEmail(ds.child(userid).getValue(GetInfoFIre.class).getEmail());
@@ -75,15 +75,16 @@ public class AcctDet extends AppCompatActivity {
             g.setPhonenum(ds.child(userid).getValue(GetInfoFIre.class).getPhonenum());
             Toast.makeText(this,"Your User Details Appear Here ", Toast.LENGTH_SHORT).show();
             alldet.setTextColor(Color.BLACK);
-            alldet.setText("\n\n\n\n\t\tFirst Name  "+g.getFirstname()+"  \n"+
-                    "\t\tLast Name  "+g.getLastname()+"  \n"+
+            alldet.setText(
+//                    "\n\n\n\n\t\tFirst Name  "+g.getFirstname()+"  \n"+
+//                    "\t\tLast Name  "+g.getLastname()+"  \n"+
                             "\t\tCity  "+g.getCity()+"  \n"+
                             "\t\tPhone Number  "+g.getPhonenum()+"  \n"+
                             "\t\tEmail Address "+g.getEmail()+"  \n"
 
-                    );
+            );
 
-        }
+
 
     }
 

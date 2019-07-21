@@ -3,9 +3,13 @@ package com.icy.chatscreen;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -38,6 +42,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.s3infosoft.loyaltyapp.LandingActivity;
 import com.s3infosoft.loyaltyapp.R;
@@ -59,9 +64,11 @@ GoogleSignInClient mGoogleSignInClient;
 //GSO
 int RC_SIGN_IN=9001;
 TextView signinwithphone;
-Button registernew;
+Button registernew,forgotpasswordemail;
+
+
     EditText emailet,passet;
-ImageButton imgsign;
+ImageButton imgsign,spbh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +76,57 @@ ImageButton imgsign;
         setContentView(R.layout.mainactlogin);
 
 
-        registernew = findViewById(R.id.Register);
+/*
+        mailcheddam=findViewById(R.id.mailcheddamgmail);
+        mailcheddam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    Intent intent = new Intent (Intent.ACTION_VIEW , Uri.parse("mailto:" + "bloglover19920002@gmail.com"));
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Suggestions / Issues / Complaints");
+                    intent.putExtra(Intent.EXTRA_TEXT, " --- S 3 I N F O S O F T --- ");
+                    startActivity(intent);
+                }catch(ActivityNotFoundException e){
+                    Toast.makeText(MainActivity.this, "something went wrong try again later", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+*/
+
+        spbh = findViewById(R.id.showpasswordbuddy);
+        spbh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                passet.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            }
+        });
+
+
+
+
+        forgotpasswordemail = findViewById(R.id.forgotpasswordmainaction);
+        forgotpasswordemail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                String em= emailet.getText().toString();
+                if(em.isEmpty()){
+                    Snackbar.make(v,"Email Cannot be empty",Snackbar.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Email Cannot be Empty", Toast.LENGTH_SHORT).show();
+                    emailet.requestFocus();
+                }else {
+                    mAuth.sendPasswordResetEmail(em).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                        Snackbar.make(v,"Password Reset Email has been sent successfully",Snackbar.LENGTH_LONG).show();
+                        }else {
+                        Snackbar.make(v,"Some Error Occured",Snackbar.LENGTH_LONG).show();
+                        }
+                        }
+                        });}}});
+
+
+                            registernew = findViewById(R.id.Register);
         signinwithphone=findViewById(R.id.phonelogin);
         emailet= findViewById(R.id.usernameet);
         passet = findViewById(R.id.passwordet);
@@ -88,16 +145,106 @@ ImageButton imgsign;
                     Toast.makeText(MainActivity.this, "Password Cannot be Empty", Toast.LENGTH_SHORT).show();
                     passet.requestFocus();
                 }else {
+                    boolean temp9870;
+                    final boolean val9870 = check(em);
+                    if(val9870==true){
+                        if(em.contains("@gmail.com")){
+                            temp9870=true;
+                        }else{
+                            em=em+"@gmail.com";
+                        }
+                    }
+                    final String finalEm = em;
                     mAuth.signInWithEmailAndPassword(em,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
+                                if(val9870==true){
+                                    Toast.makeText(MainActivity.this, "Sign In Success", Toast.LENGTH_SHORT).show();
+                                    Intent i = new Intent(MainActivity.this, LandingActivity.class);
+                                    startActivity(i);
+                                    finish();
+
+                                }
+
                                 if(mAuth.getCurrentUser().isEmailVerified()){
                                 Toast.makeText(MainActivity.this, "Sign In Success", Toast.LENGTH_SHORT).show();
 
-                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                            Snackbar.make(view,"Sign In Succesful",Snackbar.LENGTH_LONG).show();
+
+                                    final DocumentReference docRef = db.collection("Authentication Logs").document(FirebaseAuth.getInstance().getUid());
+//                 CollectionReference colref=db.collection("First").document("sample123").collection("Regsters");
+                                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if(task.isSuccessful()){
+                                                DocumentSnapshot documentSnapshot = task.getResult();
+                                                if(documentSnapshot.exists()){
+                                                    final Map<String,Object> sambro= documentSnapshot.getData();
+                                                    String st = String.valueOf(new Date(System.currentTimeMillis()));
+                                                    sambro.put(st,"Login Time");
+                                                    sambro.put("type","email");
+                                                    sambro.put("email", finalEm);
+
+                                                    db.collection("UserDets").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                            if(task.isSuccessful()){
+                                                                DocumentSnapshot documentSnapshot1=task.getResult();
+                                                                sambro.put("usernamedet",documentSnapshot1.getString("username"));
+                                                                docRef.set(sambro);
+
+                                                            }
+                                                        }
+                                                    });
+
+                                                }else{
+                                                    final Map<String,Object> sambro= new HashMap<>();
+                                                    String st = String.valueOf(new Date(System.currentTimeMillis()));
+                                                    sambro.put(st,"Login Time");
+                                                    sambro.put("type","email");
+                                                    sambro.put("email", finalEm);
+                                                    db.collection("UserDets").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                            if(task.isSuccessful()){
+                                                                DocumentSnapshot documentSnapshot1=task.getResult();
+                                                                sambro.put("usernamedet",documentSnapshot1.getString("username"));
+                                                                docRef.set(sambro);
+
+                                                            }
+                                                        }
+                                                    });
+
+
+                                                }
+                                            }
+                                        }
+                                    });
+
+
+
+                              /*
+                                    Map<String,Object> s3inf = new HashMap<>();
+                                    long tim = System.currentTimeMillis();
+                                    Date date = new Date(tim);
+                                    s3inf.put("Sign In Time",date);
+
+                                    db.collection("Authentication Logs").document(mAuth.getUid()).set(s3inf);
+                            */
+
+
+
+
+
+
+
+
+
+
+
+                                    Snackbar.make(view,"Sign In Succesful",Snackbar.LENGTH_LONG).show();
                             Intent i = new Intent(MainActivity.this, LandingActivity.class);
                             startActivity(i);
                             finish();
@@ -158,10 +305,7 @@ ImageButton imgsign;
                     public void onClick(View view) {
 
 FirebaseFirestore db = FirebaseFirestore.getInstance();
-Map<String,Object> s3inf = new HashMap<>();
-s3inf.put("Sign In","Time value ");
-db.collection("First").document("sample123").collection("Regsters").add(s3inf);
-                        Intent i = new Intent(MainActivity.this,ListItem.class);
+Intent i = new Intent(MainActivity.this,ListItem.class);
                         startActivity(i);
                         finish();
 
@@ -173,6 +317,23 @@ db.collection("First").document("sample123").collection("Regsters").add(s3inf);
 
 
 
+    }
+
+    private boolean check(String em) {
+        int totlen45= em.length();
+        int count67=0;
+        for (char sama:em.toCharArray()) {
+                if(Character.isDigit(sama)){
+                    count67++;
+                }else if(sama=='+'){
+                    count67++;
+                }
+        }
+        if(count67==totlen45){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
@@ -205,7 +366,10 @@ db.collection("First").document("sample123").collection("Regsters").add(s3inf);
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(MainActivity.this, "Sign in Success", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(MainActivity.this);
+                            final GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(MainActivity.this);
+
+                            final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
                             if(acct!=null){
 
                                     String personName = acct.getDisplayName();
@@ -218,7 +382,6 @@ db.collection("First").document("sample123").collection("Regsters").add(s3inf);
                                 String Brand = Build.BRAND;
                                 String Device = Build.DEVICE;
                                 String hard= Build.HARDWARE;
-                                FirebaseFirestore db = FirebaseFirestore.getInstance();
                                 Map<String,Object> userdet=new HashMap<>();
                                 userdet.put("personEmail",personEmail);
                                 userdet.put("personname",personName);
@@ -232,7 +395,13 @@ db.collection("First").document("sample123").collection("Regsters").add(s3inf);
                                 long timein=System.currentTimeMillis();
                                 Date ds = new Date(timein);
                                 String s3un=personName+ds;
-                                db.collection("First").document(s3un).set(userdet).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                userdet.put("username",s3un);
+                                userdet.put("userid",mAuth.getUid());
+                                userdet.put("Type","Google Sign In");
+
+
+
+                                db.collection("UserDets").document(mAuth.getUid()).set(userdet).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
@@ -243,7 +412,67 @@ db.collection("First").document("sample123").collection("Regsters").add(s3inf);
                                         Toast.makeText(MainActivity.this, "Relogin", Toast.LENGTH_SHORT).show();
                                     }
                                 });
+
+
+                                final DocumentReference docRef = db.collection("Authentication Logs").document(FirebaseAuth.getInstance().getUid());
+//                 CollectionReference colref=db.collection("First").document("sample123").collection("Regsters");
+                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            final String un09;
+                                            DocumentSnapshot documentSnapshot = task.getResult();
+                                            if(documentSnapshot.exists()){
+                                                final Map<String,Object> sambro= documentSnapshot.getData();
+                                                String st = String.valueOf(new Date(System.currentTimeMillis()));
+                                                sambro.put(st,"Login Time");
+                                                sambro.put("type","Google Sign In");
+                                                sambro.put("Email",acct.getEmail());
+                                                db.collection("UserDets").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if(task.isSuccessful()){
+                                                            DocumentSnapshot documentSnapshot1=task.getResult();
+                                                             sambro.put("usernamedet",documentSnapshot1.getString("username"));
+                                                             docRef.set(sambro);
+
+                                                        }
+                                                    }
+                                                });
+
+                                            }else{
+                                                final Map<String,Object> sambro= new HashMap<>();
+                                                String st = String.valueOf(new Date(System.currentTimeMillis()));
+                                                sambro.put(st,"Login Time");
+                                                sambro.put("type","Google Sign In");
+                                                sambro.put("Email",acct.getEmail());
+                                                db.collection("UserDets").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if(task.isSuccessful()){
+                                                            DocumentSnapshot documentSnapshot1=task.getResult();
+                                                            sambro.put("usernamedet",documentSnapshot1.getString("username"));
+                                                            docRef.set(sambro);
+
+                                                        }
+                                                    }
+                                                });
+
+
+                                            }
+                                        }
+                                    }
+                                });
+
+
+
+
                             }
+
+
+
+
+
                             Intent i = new Intent(MainActivity.this,LandingActivity.class);
                             startActivity(i);
                             finish();

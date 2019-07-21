@@ -57,7 +57,7 @@ public class Chphone extends AppCompatActivity {
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseUser=firebaseAuth.getCurrentUser();
         userid=firebaseUser.getUid();
-        databaseReference=firebaseDatabase.getReference("/Users/"+userid);
+        databaseReference=firebaseDatabase.getReference();
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -137,7 +137,10 @@ if(entredotp.equals(thisislolab)){
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
+            e.printStackTrace();
+
             Toast.makeText(Chphone.this, "SomeThing went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Chphone.this, String.valueOf(e.getStackTrace()+"\n"+e.getMessage()), Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -148,10 +151,10 @@ if(entredotp.equals(thisislolab)){
         }
     };
 
-    private void showdata(DataSnapshot ds) {
-        HashMap<String, Object> hashMap = (HashMap<String, Object>) ds.getValue();
+    private void showdata(DataSnapshot dataSnapshot) {
+        DataSnapshot ds = dataSnapshot.child("Users");
         GetInfoFIre gs= new GetInfoFIre();
-        gs.setPhonenum(hashMap.get("phonenum").toString());
+        gs.setPhonenum(ds.child(userid).getValue(GetInfoFIre.class).getPhonenum());
         Toast.makeText(this, "Your Current Phone Number is "+gs.getPhonenum(), Toast.LENGTH_SHORT).show();
 
     }

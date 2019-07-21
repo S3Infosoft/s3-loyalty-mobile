@@ -32,7 +32,7 @@ public class phonenumberlogin extends AppCompatActivity {
     EditText phonenumber, otpnumber;
     Button getotp, signinwithphone;
     FirebaseAuth firebaseAuth;
-String samcode;
+String samcode,mobnum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +47,9 @@ firebaseAuth=FirebaseAuth.getInstance();
         getotp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String mobnum = phonenumber.getText().toString();
+                 mobnum = phonenumber.getText().toString();
                 if (mobnum.isEmpty() || mobnum.length() < 10) {
-                    phonenumber.setError("Please Enter 10 Digit Mobile Number");
+                    phonenumber.setError("Please Enter 10 Digit Mobile Number with country code");
                     Snackbar.make(view, "Please Enter 10 digit mobile number", Snackbar.LENGTH_LONG).show();
                 } else {
                     sendotp(mobnum);
@@ -95,12 +95,13 @@ firebaseAuth=FirebaseAuth.getInstance();
             // This callback is invoked in an invalid request for verification is made,
             // for instance if the the phone number format is not valid.
             Toast.makeText(phonenumberlogin.this, "verification failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(phonenumberlogin.this, e.getStackTrace()+"\n"+e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onCodeSent(String verificationId,
                                PhoneAuthProvider.ForceResendingToken token) {
-            //super.onCodeSent(verificationId,token);
+            super.onCodeSent(verificationId,token);
             samcode = verificationId;
             Toast.makeText(phonenumberlogin.this, "Code Sent Succesfully", Toast.LENGTH_SHORT).show();
 
@@ -118,6 +119,17 @@ firebaseAuth=FirebaseAuth.getInstance();
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(phonenumberlogin.this, "You have signed in succesfully", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = task.getResult().getUser();
+                            FirebaseAuth.getInstance().createUserWithEmailAndPassword(mobnum+"@gmail.com","1111111@").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                               if(task.isSuccessful()){
+                                   Toast.makeText(phonenumberlogin.this, "Success", Toast.LENGTH_SHORT).show();
+                               }else{
+                                   Toast.makeText(phonenumberlogin.this, "Issue ", Toast.LENGTH_SHORT).show();
+                               }
+                                }
+                            });
+
                             Intent i = new Intent(phonenumberlogin.this, LandingActivity.class);
                             startActivity(i);
                             finish();

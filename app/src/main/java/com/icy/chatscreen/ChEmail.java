@@ -2,6 +2,7 @@ package com.icy.chatscreen;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
@@ -70,10 +71,19 @@ public class ChEmail extends AppCompatActivity {
                                             Toast.makeText(ChEmail.this, "Check The Verification Email sent to your new Email Address", Toast.LENGTH_SHORT).show();
                                             user1.sendEmailVerification();
                                             FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("email").setValue(pass1);
+                                            CountDownTimer c = new CountDownTimer(3000,1000) {
+                                                @Override
+                                                public void onTick(long millisUntilFinished) {
 
+                                                }
+
+                                                @Override
+                                                public void onFinish() {
+                                                    startActivity(new Intent(ChEmail.this,MainActivity.class));
+                                                }
+                                            }.start();
 
                                             FirebaseAuth.getInstance().signOut();
-                                            startActivity(new Intent(ChEmail.this,MainActivity.class));
                                         }else{
                                             Snackbar.make(view,"Error Occured",Snackbar.LENGTH_LONG).show();
 
