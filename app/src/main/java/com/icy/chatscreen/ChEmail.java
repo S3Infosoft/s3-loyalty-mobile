@@ -23,7 +23,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.s3infosoft.loyaltyapp.R;
+
+import java.util.Map;
 
 public class ChEmail extends AppCompatActivity {
     EditText et1,et2,pass;
@@ -68,6 +73,21 @@ public class ChEmail extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
+                                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                            final DocumentReference docRef = db.collection("UserDets").document(FirebaseAuth.getInstance().getUid());
+                                            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if(task.isSuccessful()){
+                                                        DocumentSnapshot documentSnapshot = task.getResult();
+
+                                                        Map<String,Object> sambro= documentSnapshot.getData();
+                                                        sambro.put("emailadd",pass1);
+                                                        docRef.set(sambro);
+                                                    }
+                                                }
+                                            });
+
                                             Toast.makeText(ChEmail.this, "Check The Verification Email sent to your new Email Address", Toast.LENGTH_SHORT).show();
                                             user1.sendEmailVerification();
                                             FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("email").setValue(pass1);

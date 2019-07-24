@@ -24,7 +24,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/editText2pn"
+        android:layout_below="@id/editTextpn"
         android:id="@+id/getoptchange2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,18 +43,6 @@
         android:inputType="phone"
         />
 
-    <EditText
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/editTextpn"
-        android:hint="Re Enter Phone Number"
-        android:id="@+id/editText2pn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="12"
-        android:inputType="phone"
-        />
 
     <EditText
         android:layout_marginTop="20dp"

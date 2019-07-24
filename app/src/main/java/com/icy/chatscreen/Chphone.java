@@ -24,9 +24,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.s3infosoft.loyaltyapp.R;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class Chphone extends AppCompatActivity {
@@ -49,7 +53,6 @@ public class Chphone extends AppCompatActivity {
         getotpbutt = findViewById(R.id.getoptchange2);
         otpenter = findViewById(R.id.editTextotp2pn);
         et1=findViewById(R.id.editTextpn);
-        et2=findViewById(R.id.editText2pn);
         phonechange = findViewById(R.id.buttonpn);
 
 
@@ -76,24 +79,17 @@ public class Chphone extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String pass1=et1.getText().toString();
-                String pass2=et2.getText().toString();
-                if(!pass1.equals(pass2)){
-                    Snackbar.make(view,"The Phone Numbers does not Match",Snackbar.LENGTH_LONG).show();
-                }else{
+
                     SendOtp(pass1);
 
-                }
+
                 }
         });
 
         phonechange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                String pass1=et1.getText().toString();
-                String pass2=et2.getText().toString();
-                if(!pass1.equals(pass2)){
-                    Snackbar.make(view,"The Phone Numbers does not Match",Snackbar.LENGTH_LONG).show();
-                }else{
+                final String pass1=et1.getText().toString();
 
 String entredotp= otpenter.getText().toString();
 //PhoneAuthCredential credential = PhoneAuthProvider.getCredential(thisistoverify,entredotp);
@@ -103,14 +99,30 @@ String entredotp= otpenter.getText().toString();
 
 if(entredotp.equals(thisislolab)){
                     FirebaseDatabase.getInstance().getReference("Users").child(userid).child("phonenum").setValue(pass1);
-                }else{
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    final DocumentReference docRef = db.collection("UserDets").document(firebaseAuth.getUid());
+    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        @Override
+        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            if(task.isSuccessful()){
+                DocumentSnapshot documentSnapshot = task.getResult();
+                Map<String,Object> sambro= documentSnapshot.getData();
+                sambro.put("phonenum",pass1);
+                docRef.set(sambro);
+            }
+        }
+    });
+
+
+}else{
 
     Toast.makeText(Chphone.this, "You Entered Wrong Sorry", Toast.LENGTH_SHORT).show();
-    Toast.makeText(Chphone.this, entredotp+"\t"+thisistoverify, Toast.LENGTH_SHORT).show();
+
 }
 
 
-                }
+
             }
         });
 

@@ -222,9 +222,12 @@ boolean chi=checkStrength(s.toString());
                             userdet.put("Hardware",hard);
                             userdet.put("date",dateanuko);
                             userdet.put("Registered",true);
-                            userdet.put("points",0);
-                            userdet.put("LoyaltyLevel","Bronze");
-                            userdet.put("Useruid",firebaseAuth.getUid());
+                            userdet.put("points","100");
+                            userdet.put("emailadd",fbemail);
+                            userdet.put("address","##");
+                            userdet.put("phonenum",fbphn);
+                            userdet.put("LoyalLevel","Bronze");
+                            userdet.put("useruid",firebaseAuth.getUid());
                             String s3un = fbfn+fbln+(ds);
                             userdet.put("username",s3un);
                             db.collection("UserDets").document(FirebaseAuth.getInstance().getUid()).set(userdet).addOnSuccessListener(new OnSuccessListener<Void>() {

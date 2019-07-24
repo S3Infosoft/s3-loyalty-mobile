@@ -55,7 +55,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
 //GSO
 private FirebaseAuth mAuth;
@@ -246,6 +246,7 @@ ImageButton imgsign,spbh;
 
                                     Snackbar.make(view,"Sign In Succesful",Snackbar.LENGTH_LONG).show();
                             Intent i = new Intent(MainActivity.this, LandingActivity.class);
+                            SettingsActivity s3in = new SettingsActivity(3);
                             startActivity(i);
                             finish();
                             }
@@ -349,7 +350,7 @@ Intent i = new Intent(MainActivity.this,ListItem.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Si
-                Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Google sign in failed"+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -396,8 +397,14 @@ Intent i = new Intent(MainActivity.this,ListItem.class);
                                 Date ds = new Date(timein);
                                 String s3un=personName+ds;
                                 userdet.put("username",s3un);
+                                userdet.put("phonenum","##");
+                                userdet.put("address","##");
+                                userdet.put("emailadd",personEmail);
+
                                 userdet.put("userid",mAuth.getUid());
                                 userdet.put("Type","Google Sign In");
+                                userdet.put("points","100");
+                                userdet.put("LoyalLevel","Bronze");
 
 
 
@@ -474,6 +481,9 @@ Intent i = new Intent(MainActivity.this,ListItem.class);
 
 
                             Intent i = new Intent(MainActivity.this,LandingActivity.class);
+                            SettingsActivity s3in=new SettingsActivity(1);
+//                            s3in.setSett(1);
+
                             startActivity(i);
                             finish();
                         } else {

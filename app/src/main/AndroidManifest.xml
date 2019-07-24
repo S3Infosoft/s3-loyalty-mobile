@@ -50,6 +50,7 @@
         <activity android:name="com.icy.chatscreen.Chpass"/>
         <activity android:name="com.icy.chatscreen.SettingsActivity"/>
         <activity android:name="com.icy.chatscreen.AcctDet"/>
+        <activity android:name="com.icy.chatscreen.AcctInfActivity"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
