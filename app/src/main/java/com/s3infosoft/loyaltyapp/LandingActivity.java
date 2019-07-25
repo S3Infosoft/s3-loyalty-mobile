@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.icy.chatscreen.SettingsActivity;
 import com.s3infosoft.loyaltyapp.adapter.ProductAdapter;
 import com.s3infosoft.loyaltyapp.adapter.ReservationHistoryAdapter;
 import com.s3infosoft.loyaltyapp.adapter.SpecialDealAdapter;
@@ -57,7 +58,7 @@ public class LandingActivity extends AppCompatActivity
     SpecialDealAdapter specialDealAdapter;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference, usersReference, specialDealReference;
-    int points;
+    int points = 0;
     String userLevel;
     ImageView profile_img;
     TextView user_level;
@@ -99,7 +100,14 @@ public class LandingActivity extends AppCompatActivity
         mFirebaseAnalytics.setUserProperty("Product", "Product Name");
 
         profile_img = (ImageView) findViewById(R.id.profile_img);
-        Glide.with(this).load("https://miro.medium.com/max/1400/1*3kPOI1_HGuE0fPWBj_jnog.png").circleCrop().into(profile_img);
+        if (firebaseUser.getPhotoUrl() == null)
+        {
+            Glide.with(this).load("https://swopstakes.com/wp-content/themes/uncode-child-ss/images/user-profile.png").circleCrop().into(profile_img);
+        }
+        else
+        {
+            Glide.with(this).load(firebaseUser.getPhotoUrl()).circleCrop().into(profile_img);
+        }
 
         user_level = (TextView) findViewById(R.id.user_level);
 
@@ -113,21 +121,6 @@ public class LandingActivity extends AppCompatActivity
         databaseReference = firebaseDatabase.getReference("/product");
         usersReference = firebaseDatabase.getReference("/users/uid");
         specialDealReference = firebaseDatabase.getReference("/special_deals");
-
-        usersReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                points = Integer.parseInt(hashMap.get("points").toString());
-                userLevel = hashMap.get("level").toString();
-                user_level.setText(userLevel);
-                updatePoints(points);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -257,6 +250,20 @@ public class LandingActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.landing, menu);
         this.menu = menu;
+        usersReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
+                points = Integer.parseInt(hashMap.get("points").toString());
+                userLevel = hashMap.get("level").toString();
+                user_level.setText(userLevel);
+                updatePoints(points);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         return true;
     }
 
@@ -270,7 +277,6 @@ public class LandingActivity extends AppCompatActivity
             Intent i = new Intent(this, CartActivity.class);
             startActivity(i);
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -288,11 +294,19 @@ public class LandingActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.nav_reservation_history) {
             Intent i = new Intent(LandingActivity.this, ReservationHistoryActivity.class);
+
+        } else if (id == R.id.nav_settings) {
+            Intent i = new Intent(LandingActivity.this, SettingsActivity.class);
             startActivity(i);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return false;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 }

@@ -40,11 +40,14 @@ public class RedeemActivity extends AppCompatActivity {
     int required_points = 0;
     DatabaseHandler databaseHandler;
     CartItem cartItem;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         getSupportActionBar().setTitle("Redeem Points");
         builder = new AlertDialog.Builder(this);
@@ -81,6 +84,7 @@ public class RedeemActivity extends AppCompatActivity {
             Toast.makeText(this, "Already in a Cart", Toast.LENGTH_SHORT).show();
         }
         /*databaseReference = firebaseDatabase.getReference("/order_history/uid");
+        databaseReference = firebaseDatabase.getReference("/order_history/"+firebaseUser.getUid());
         final DatabaseReference usersReference = firebaseDatabase.getReference("/users/uid");
         usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -138,5 +142,11 @@ public class RedeemActivity extends AppCompatActivity {
 
             }
         });*/
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 }

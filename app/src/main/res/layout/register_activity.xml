@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/registeractivitype"
+
+    android:background="#FFD600"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView
+        android:layout_above="@id/tablereg"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:id="@+id/denikivaddu"
+        android:fontFamily="@font/autour_one"
+        android:text="Register"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+
+
+    <TableLayout
+        android:id="@+id/tablereg"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:id="@+id/fnametv"
+                android:fontFamily="@font/abeezee"
+                android:text="First Name*"
+                />
+            <EditText
+                android:id="@+id/fnet"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textStyle="bold"
+                android:hint="First Name"
+                />
+
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:id="@+id/lnametv"
+                android:fontFamily="@font/abeezee"
+                android:text="Last Name*"
+                />
+            <EditText
+                android:id="@+id/lnet"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textStyle="bold"
+                android:hint="Last Name"
+                />
+
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:id="@+id/phtv"
+                android:gravity="center"
+                android:fontFamily="@font/abeezee"
+                android:text="Phone Number"
+                />
+            <EditText
+                android:id="@+id/phet"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textStyle="bold"
+                android:hint="Phone Number"
+                />
+
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:id="@+id/emailtv"
+                android:gravity="center"
+                android:fontFamily="@font/abeezee"
+                android:text="E-Mail Address*"
+                />
+            <EditText
+                android:id="@+id/emailet"
+                android:gravity="center"
+                android:inputType="textEmailAddress"
+                android:layout_weight="3"
+                android:textStyle="bold"
+                android:hint="E-Mail Address"
+                />
+
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:id="@+id/citytv"
+                android:fontFamily="@font/abeezee"
+                android:text="City"
+                android:gravity="center"
+                />
+            <AutoCompleteTextView
+                android:hint="City"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:id="@+id/autocompletetextcity"
+                />
+            <!--
+<Spinner
+android:textAlignment="center"
+    android:layout_weight="3"
+    android:id="@+id/spinnercity"
+    >
+</Spinner>-->
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:id="@+id/dobtv"
+                android:fontFamily="@font/abeezee"
+                android:text="Date of Birth"
+                android:gravity="center"
+                />
+            <TextView
+                android:id="@+id/dobet"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="Date Of Birth"
+                />
+
+        </TableRow><TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:id="@+id/anntv"
+                android:fontFamily="@font/abeezee"
+                android:text="Marriage Anniversary"
+                android:gravity="center"
+                />
+            <TextView
+                android:id="@+id/annet"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textStyle="bold"
+                android:text="Anniversary Date"
+                />
+
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:textSize="18sp"
+
+                android:gravity="center"
+                android:id="@+id/pswtv"
+                android:fontFamily="@font/abeezee"
+                android:text="Password*"
+                />
+            <EditText
+                android:id="@+id/pswet"
+                android:inputType="textPassword"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textStyle="bold"
+                android:hint="Password"
+                />
+
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:id="@+id/retv"
+                android:gravity="center"
+                android:fontFamily="@font/abeezee"
+                android:text="Confirm Password*"
+                />
+            <EditText
+                android:id="@+id/reet"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textStyle="bold"
+                android:inputType="textPassword"
+                android:hint="Re Enter Password"
+                />
+
+        </TableRow>
+
+    </TableLayout>
+
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:text="Register"
+        android:id="@+id/registerbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tablereg"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        />
+
+
+</RelativeLayout>
