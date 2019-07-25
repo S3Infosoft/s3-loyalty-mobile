@@ -8,7 +8,7 @@ public class Product {
 
     public Product()
     {
-
+        
     }
 
     public Product(String name, String desc, String logo_url, int points)

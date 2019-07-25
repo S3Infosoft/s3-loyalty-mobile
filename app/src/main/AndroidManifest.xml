@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.s3infosoft.loyaltyapp">
-
+    
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="Loy App"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ReservationActivity"></activity>
+        <activity android:name=".SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ReservationHistoryActivity" />
+        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".ReservationActivity" />
         <activity android:name=".CartActivity" />
         <activity
             android:name=".OrderHistoryActivity"
-            android:label="Order History"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Order History"/>
         <activity
             android:name=".PurchaseActivity"
-            android:label="Buy Points"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Buy Points"/>
         <activity
             android:name=".MainActivity"
             android:label="Loyalty App"
@@ -57,5 +65,17 @@
       <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_test_WcDXqhe1knpIwW" />
+
+        <service
+            android:name=".service.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logo" />
     </application>
 </manifest>
