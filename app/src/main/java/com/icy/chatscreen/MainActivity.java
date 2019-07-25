@@ -276,7 +276,8 @@ ImageButton imgsign,spbh;
                 .requestEmail()
                 .build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);mAuth=FirebaseAuth.getInstance();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mAuth=FirebaseAuth.getInstance();
         gsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -350,7 +351,7 @@ Intent i = new Intent(MainActivity.this,ListItem.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Si
-                Toast.makeText(this, "Google sign in failed"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Google sign in failed"+e.getMessage()+"\n"+e.getLocalizedMessage()+"\n"+e.getStackTrace(), Toast.LENGTH_SHORT).show();
             }
         }
     }

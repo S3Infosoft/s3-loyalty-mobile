@@ -233,12 +233,12 @@ boolean chi=checkStrength(s.toString());
                             db.collection("UserDets").document(FirebaseAuth.getInstance().getUid()).set(userdet).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-
+                                    Toast.makeText(ListItem.this, "Success", Toast.LENGTH_SHORT).show();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-
+                                    Toast.makeText(ListItem.this, "Failed", Toast.LENGTH_SHORT).show();
                                 }
                             });
 
