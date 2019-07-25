@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,6 +41,7 @@ public class RedeemActivity extends AppCompatActivity {
     int required_points = 0;
     DatabaseHandler databaseHandler;
     CartItem cartItem;
+    FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,8 @@ public class RedeemActivity extends AppCompatActivity {
         logo = (ImageView) findViewById(R.id.logo);
         pointsTextView = (TextView) findViewById(R.id.points);
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -69,6 +73,17 @@ public class RedeemActivity extends AppCompatActivity {
         cartItem = new CartItem(name.getText().toString(), i.getStringExtra("id"), desc.getText().toString(), i.getStringExtra("logo_url"), 1, required_points);
 
         Glide.with(this).load(i.getStringExtra("logo_url")).into(logo);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, i.getStringExtra("id"));
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, i.getStringExtra("name"));
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "product");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setMinimumSessionDuration(10000);
+        mFirebaseAnalytics.setSessionTimeoutDuration(500);
+        mFirebaseAnalytics.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        mFirebaseAnalytics.setUserProperty("Product", "Product Name");
     }
 
     public void buyClick(View view) {

@@ -99,7 +99,17 @@ public class LandingActivity extends AppCompatActivity
         mFirebaseAnalytics.setUserProperty("Product", "Product Name");
 
         profile_img = (ImageView) findViewById(R.id.profile_img);
-        Glide.with(this).load("https://miro.medium.com/max/1400/1*3kPOI1_HGuE0fPWBj_jnog.png").circleCrop().into(profile_img);
+
+        Log.v("#####", " "+firebaseUser.getUid());
+
+        if (firebaseUser.getUid() == null)
+        {
+            Glide.with(this).load("https://swopstakes.com/wp-content/themes/uncode-child-ss/images/user-profile.png").circleCrop().into(profile_img);
+        }
+        else
+        {
+            Glide.with(this).load(firebaseUser.getPhotoUrl()).circleCrop().into(profile_img);
+        }
 
         user_level = (TextView) findViewById(R.id.user_level);
 
