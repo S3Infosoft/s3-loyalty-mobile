@@ -1,6 +1,7 @@
 package com.icy.chatscreen;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -130,10 +131,11 @@ public class phonenumberlogin extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(phonenumberlogin.this, "You have signed in succesfully", Toast.LENGTH_SHORT).show();
                             storedata();
-                            Intent i = new Intent(phonenumberlogin.this, LandingActivity.class);
-                 SettingsActivity s3in = new SettingsActivity(2);
-                 s3in.setSett(2);
-                            startActivity(i);
+                            Intent i = new Intent(phonenumberlogin.this, SettingsActivity.class);
+                            SharedPreferences preferences = getApplicationContext().getSharedPreferences("MyPref",0);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putInt("sett",2);
+                            editor.commit();startActivity(i);
                             finish();
 
                             FirebaseUser user = task.getResult().getUser();

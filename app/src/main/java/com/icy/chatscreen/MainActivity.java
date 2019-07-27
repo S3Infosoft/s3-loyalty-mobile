@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -245,8 +246,11 @@ ImageButton imgsign,spbh;
 
 
                                     Snackbar.make(view,"Sign In Succesful",Snackbar.LENGTH_LONG).show();
-                            Intent i = new Intent(MainActivity.this, LandingActivity.class);
-                            SettingsActivity s3in = new SettingsActivity(3);
+                            Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                                    SharedPreferences preferences = getApplicationContext().getSharedPreferences("MyPref",0);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putInt("sett",3);
+                                    editor.commit();
                             startActivity(i);
                             finish();
                             }
@@ -481,12 +485,14 @@ Intent i = new Intent(MainActivity.this,ListItem.class);
 
 
 
-                            Intent i = new Intent(MainActivity.this,LandingActivity.class);
-                            SettingsActivity s3in=new SettingsActivity(1);
-//                            s3in.setSett(1);
-
+                            Intent i = new Intent(MainActivity.this,SettingsActivity.class);
+                            SharedPreferences preferences = getApplicationContext().getSharedPreferences("MyPref",0);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putInt("sett",1);
+                            editor.commit();
                             startActivity(i);
                             finish();
+
                         } else {
                             // If sign in fails, display a message to th
                             Toast.makeText(MainActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
@@ -519,9 +525,10 @@ Intent i = new Intent(MainActivity.this,ListItem.class);
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser!=null){
             if(currentUser.isEmailVerified()) {
-                Intent i = new Intent(MainActivity.this, LandingActivity.class);
+                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(i);
                 finish();
+
             }
 //            FirebaseAuth.getInstance().signOut();
         }

@@ -135,9 +135,10 @@ public class LandingActivity extends AppCompatActivity
         specialDealReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.v("#DDDD", dataSnapshot.getValue().toString());
+
                 for (DataSnapshot hotelSnapshot: dataSnapshot.getChildren())
                 {
+                    Log.v("#DDDD", dataSnapshot.getValue().toString());
                     Log.v("#EEEE", hotelSnapshot.getValue().toString());
                     List<String> image_urls = new ArrayList<String>();
                     HashMap<String,Object> list = (HashMap<String, Object>) hotelSnapshot.getValue();
@@ -241,10 +242,10 @@ public class LandingActivity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                points = Integer.parseInt(hashMap.get("points").toString());
-                userLevel = hashMap.get("level").toString();
-                user_level.setText(userLevel);
-                updatePoints(points);
+//                points = Integer.parseInt(hashMap.get("points").toString());
+//                userLevel = hashMap.get("level").toString();
+//                user_level.setText(userLevel);
+//                updatePoints(points);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
