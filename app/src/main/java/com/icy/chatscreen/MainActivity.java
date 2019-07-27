@@ -246,7 +246,7 @@ ImageButton imgsign,spbh;
 
 
                                     Snackbar.make(view,"Sign In Succesful",Snackbar.LENGTH_LONG).show();
-                            Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                            Intent i = new Intent(MainActivity.this, LandingActivity.class);
                                     SharedPreferences preferences = getApplicationContext().getSharedPreferences("MyPref",0);
                                     SharedPreferences.Editor editor = preferences.edit();
                                     editor.putInt("sett",3);
@@ -485,7 +485,7 @@ Intent i = new Intent(MainActivity.this,ListItem.class);
 
 
 
-                            Intent i = new Intent(MainActivity.this,SettingsActivity.class);
+                            Intent i = new Intent(MainActivity.this,LandingActivity.class);
                             SharedPreferences preferences = getApplicationContext().getSharedPreferences("MyPref",0);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putInt("sett",1);
@@ -525,7 +525,7 @@ Intent i = new Intent(MainActivity.this,ListItem.class);
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser!=null){
             if(currentUser.isEmailVerified()) {
-                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                Intent i = new Intent(MainActivity.this, LandingActivity.class);
                 startActivity(i);
                 finish();
 

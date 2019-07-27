@@ -131,7 +131,7 @@ public class phonenumberlogin extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(phonenumberlogin.this, "You have signed in succesfully", Toast.LENGTH_SHORT).show();
                             storedata();
-                            Intent i = new Intent(phonenumberlogin.this, SettingsActivity.class);
+                            Intent i = new Intent(phonenumberlogin.this, LandingActivity.class);
                             SharedPreferences preferences = getApplicationContext().getSharedPreferences("MyPref",0);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putInt("sett",2);

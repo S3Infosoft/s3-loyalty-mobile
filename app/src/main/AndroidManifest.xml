@@ -32,7 +32,7 @@
             android:label="Buy Points"/>
         <activity
             android:name=".MainActivity"
-            android:label="Loyalty App"
+            android:label="Loy App"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SpecialDealsActivity" />
         <activity android:name=".ProductActivity" />
