@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.icy.chatscreen.SettingsActivity;
 import com.s3infosoft.loyaltyapp.adapter.ProductAdapter;
+import com.s3infosoft.loyaltyapp.adapter.ReservationHistoryAdapter;
 import com.s3infosoft.loyaltyapp.adapter.SpecialDealAdapter;
 import com.s3infosoft.loyaltyapp.model.Product;
 import com.s3infosoft.loyaltyapp.model.SpecialDeal;
@@ -38,6 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -62,6 +64,8 @@ public class LandingActivity extends AppCompatActivity
     TextView user_level;
     FirebaseUser firebaseUser;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private ProgressBar progressBar1, progressBar2;
+    List<String> keys;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +84,9 @@ public class LandingActivity extends AppCompatActivity
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        progressBar1 = (ProgressBar) findViewById(R.id.progressBar1);
+        progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
 
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "id");
@@ -109,6 +116,8 @@ public class LandingActivity extends AppCompatActivity
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
+        keys = new ArrayList<>();
+
         databaseReference = firebaseDatabase.getReference("/product");
         usersReference = firebaseDatabase.getReference("/users/uid");
         specialDealReference = firebaseDatabase.getReference("/special_deals");
@@ -119,10 +128,12 @@ public class LandingActivity extends AppCompatActivity
                 Log.v("#DDDD", dataSnapshot.getValue().toString());
                 for (DataSnapshot hotelSnapshot: dataSnapshot.getChildren())
                 {
+                    keys.add(hotelSnapshot.getKey());
                     HashMap<String,Object> list = (HashMap<String, Object>) hotelSnapshot.getValue();
 
                     products.add(new Product(list.get("name").toString(), list.get("description").toString(), list.get("image_url").toString(), Integer.parseInt(list.get("required_points").toString())));
                     productAdapter.notifyDataSetChanged();
+                    progressBar1.setVisibility(View.GONE);
                 }
             }
 
@@ -158,6 +169,7 @@ public class LandingActivity extends AppCompatActivity
                     specialDeals.add(new SpecialDeal(list.get("name").toString(), list.get("description").toString(), image_urls, 8000));
                     //Log.v("#####", list.get("name")+" "+list.get("metadata").toString());
                     specialDealAdapter.notifyDataSetChanged();
+                    progressBar2.setVisibility(View.GONE);
                 }
             }
 
@@ -176,6 +188,7 @@ public class LandingActivity extends AppCompatActivity
                 i.putExtra("desc", products.get(position).getDesc());
                 i.putExtra("logo_url", products.get(position).getLogo_url());
                 i.putExtra("points", products.get(position).getPoints());
+                i.putExtra("id", keys.get(position));
                 startActivity(i);
             }
 
@@ -280,6 +293,9 @@ public class LandingActivity extends AppCompatActivity
         } else if (id == R.id.nav_tools) {
             Intent i = new Intent(LandingActivity.this, PurchaseActivity.class);
             startActivity(i);
+        } else if (id == R.id.nav_reservation_history) {
+            Intent i = new Intent(LandingActivity.this, ReservationHistoryActivity.class);
+
         } else if (id == R.id.nav_settings) {
             Intent i = new Intent(LandingActivity.this, SettingsActivity.class);
             startActivity(i);
