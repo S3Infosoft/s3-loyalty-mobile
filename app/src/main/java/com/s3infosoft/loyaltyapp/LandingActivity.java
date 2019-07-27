@@ -87,17 +87,6 @@ public class LandingActivity extends AppCompatActivity
         progressBar1 = (ProgressBar) findViewById(R.id.progressBar1);
         progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
 
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "id");
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "name");
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
-        mFirebaseAnalytics.setMinimumSessionDuration(10000);
-        mFirebaseAnalytics.setSessionTimeoutDuration(500);
-        mFirebaseAnalytics.setUserId(String.valueOf("idid"));
-        mFirebaseAnalytics.setUserProperty("Product", "Product Name");
-
         profile_img = (ImageView) findViewById(R.id.profile_img);
 
         if (firebaseUser == null)

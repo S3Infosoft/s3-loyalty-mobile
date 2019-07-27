@@ -15,6 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.s3infosoft.loyaltyapp.adapter.CartAdapter;
@@ -34,6 +37,8 @@ public class CartActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     DatabaseHandler databaseHandler;
+    FirebaseUser firebaseUser;
+    FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,9 @@ public class CartActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Cart");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyler_view);
 
@@ -73,6 +81,13 @@ public class CartActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, cartItems.get(viewHolder.getAdapterPosition()).getItem_id());
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, cartItems.get(viewHolder.getAdapterPosition()).getItem_name());
+                bundle.putInt(FirebaseAnalytics.Param.QUANTITY, cartItems.get(viewHolder.getAdapterPosition()).getQuantity());
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.REMOVE_FROM_CART, bundle);
+                mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+                mFirebaseAnalytics.setUserId(firebaseUser == null ? "null": firebaseUser.getUid());
                 databaseHandler.removeItem(cartItems.get(viewHolder.getAdapterPosition()).getItem_id());
                 cartItems.remove(viewHolder.getAdapterPosition());
                 productAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());

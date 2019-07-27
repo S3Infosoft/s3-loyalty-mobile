@@ -43,6 +43,7 @@ public class RedeemActivity extends AppCompatActivity {
     CartItem cartItem;
     FirebaseAnalytics mFirebaseAnalytics;
     FirebaseUser firebaseUser;
+    String productid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,8 @@ public class RedeemActivity extends AppCompatActivity {
         pointsTextView = (TextView) findViewById(R.id.points);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(firebaseUser == null ? "null": firebaseUser.getUid());
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -77,19 +80,28 @@ public class RedeemActivity extends AppCompatActivity {
 
         Glide.with(this).load(i.getStringExtra("logo_url")).into(logo);
 
+        productid = i.getStringExtra("id");
+
         Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, i.getStringExtra("id"));
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, productid);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, i.getStringExtra("name"));
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "product");
+        bundle.putInt(FirebaseAnalytics.Param.VALUE, required_points);
+        bundle.putString(FirebaseAnalytics.Param.VIRTUAL_CURRENCY_NAME, "Points");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
-        mFirebaseAnalytics.setUserId(firebaseUser == null ? "null": firebaseUser.getUid());
-        mFirebaseAnalytics.setUserProperty("Open Product", i.getStringExtra("name"));
+        mFirebaseAnalytics.setUserProperty("Choose Product", i.getStringExtra("name"));
     }
 
     public void buyClick(View view) {
         if (databaseHandler.addItem(cartItem))
         {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, productid);
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name.getText().toString());
+            bundle.putInt(FirebaseAnalytics.Param.VALUE, required_points);
+            bundle.putString(FirebaseAnalytics.Param.VIRTUAL_CURRENCY_NAME, "Points");
+            bundle.putInt(FirebaseAnalytics.Param.QUANTITY, 1);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.ADD_TO_CART, bundle);
             Toast.makeText(this, "Item Added to Cart", Toast.LENGTH_SHORT).show();
         }
         else

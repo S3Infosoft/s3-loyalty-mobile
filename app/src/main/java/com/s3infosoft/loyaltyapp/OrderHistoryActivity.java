@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +43,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     ProgressBar progressBar;
+    FirebaseAnalytics mFirebaseAnalytics;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyler_view);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("/order_history/uid");
@@ -75,6 +82,14 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
             }
         });
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Order History");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_VARIANT, "orders");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM_LIST, bundle);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(firebaseUser == null ? "null": firebaseUser.getUid());
+        mFirebaseAnalytics.setUserProperty("Order History", "my orders");
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
 
