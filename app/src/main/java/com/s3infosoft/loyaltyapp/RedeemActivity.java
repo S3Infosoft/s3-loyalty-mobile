@@ -42,6 +42,7 @@ public class RedeemActivity extends AppCompatActivity {
     DatabaseHandler databaseHandler;
     CartItem cartItem;
     FirebaseAnalytics mFirebaseAnalytics;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,8 @@ public class RedeemActivity extends AppCompatActivity {
         pointsTextView = (TextView) findViewById(R.id.points);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -80,10 +83,8 @@ public class RedeemActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "product");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
-        mFirebaseAnalytics.setMinimumSessionDuration(10000);
-        mFirebaseAnalytics.setSessionTimeoutDuration(500);
-        mFirebaseAnalytics.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        mFirebaseAnalytics.setUserProperty("Product", "Product Name");
+        mFirebaseAnalytics.setUserId(firebaseUser == null ? "null": firebaseUser.getUid());
+        mFirebaseAnalytics.setUserProperty("Open Product", i.getStringExtra("name"));
     }
 
     public void buyClick(View view) {

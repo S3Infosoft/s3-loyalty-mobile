@@ -100,9 +100,7 @@ public class LandingActivity extends AppCompatActivity
 
         profile_img = (ImageView) findViewById(R.id.profile_img);
 
-        Log.v("#####", " "+firebaseUser.getUid());
-
-        if (firebaseUser.getUid() == null)
+        if (firebaseUser == null)
         {
             Glide.with(this).load("https://swopstakes.com/wp-content/themes/uncode-child-ss/images/user-profile.png").circleCrop().into(profile_img);
         }
