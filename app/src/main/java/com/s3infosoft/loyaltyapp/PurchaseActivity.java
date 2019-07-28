@@ -8,6 +8,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,11 +41,19 @@ public class PurchaseActivity extends AppCompatActivity implements PaymentResult
     DatabaseReference orderReference, userReference;
     int points;
     AlertDialog.Builder builder;
+    FirebaseAnalytics mFirebaseAnalytics;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(firebaseUser == null ? "null": firebaseUser.getUid());
 
         amount = (EditText) findViewById(R.id.amount);
 
@@ -112,10 +123,17 @@ public class PurchaseActivity extends AppCompatActivity implements PaymentResult
                 alert.show();
             }
         });
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.VALUE, amount.getText().toString());
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.ECOMMERCE_PURCHASE, bundle);
     }
 
     @Override
     public void onPaymentError(int i, String s) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.VALUE, amount.getText().toString());
+        mFirebaseAnalytics.logEvent("PAYMENT_FAILED", bundle);
         Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show();
     }
 

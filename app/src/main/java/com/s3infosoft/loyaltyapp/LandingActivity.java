@@ -83,6 +83,8 @@ public class LandingActivity extends AppCompatActivity
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(firebaseUser == null ? "null": firebaseUser.getUid());
 
         progressBar1 = (ProgressBar) findViewById(R.id.progressBar1);
         progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
@@ -186,6 +188,14 @@ public class LandingActivity extends AppCompatActivity
 
             @Override
             public void onClick(View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, specialDeals.get(position).getName());
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, specialDeals.get(position).getName());
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Special Deals");
+                bundle.putInt(FirebaseAnalytics.Param.VALUE, specialDeals.get(position).getPoints());
+                bundle.putString(FirebaseAnalytics.Param.VIRTUAL_CURRENCY_NAME, "Points");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                mFirebaseAnalytics.setUserProperty("Choose Special Deals", specialDeals.get(position).getName());
                 Intent i = new Intent(LandingActivity.this, RedeemActivity.class);
                 i.putExtra("name", products.get(position).getName());
                 i.putExtra("desc", products.get(position).getDesc());
