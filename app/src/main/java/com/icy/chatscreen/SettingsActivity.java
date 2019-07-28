@@ -21,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -39,11 +40,21 @@ public class SettingsActivity extends AppCompatActivity {
     List<String> l1;
 ArrayAdapter<String> aaa;
 public int sett;
+FirebaseAuth mAuth;
+FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settingspage);
+
+
+        mAuth = FirebaseAuth.getInstance();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(mAuth.getCurrentUser()==null?"null":mAuth.getCurrentUser().getUid());
+
         ListView lv= findViewById(R.id.listviewsettings);
     l1= new ArrayList<String>();
 
@@ -89,45 +100,9 @@ public int sett;
          @Override
          public void onItemClick(final AdapterView<?> adapterView, View view, int i, long l) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+             Bundle bundle = new Bundle();
+             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, l1.get(i).toString());
+             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
              if(sett==1) {
                  i = i + 3;
