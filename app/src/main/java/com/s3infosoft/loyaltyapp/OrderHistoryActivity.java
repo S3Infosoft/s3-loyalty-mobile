@@ -57,10 +57,12 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("/order_history/uid");
 
-        databaseReference.orderByChild("date").addValueEventListener(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.v("#DDDD", dataSnapshot.getValue().toString());

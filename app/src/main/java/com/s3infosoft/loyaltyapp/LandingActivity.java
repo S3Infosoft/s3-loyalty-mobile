@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.icy.chatscreen.SettingsActivity;
 import com.s3infosoft.loyaltyapp.adapter.ProductAdapter;
 import com.s3infosoft.loyaltyapp.adapter.ReservationHistoryAdapter;
 import com.s3infosoft.loyaltyapp.adapter.SpecialDealAdapter;
@@ -295,6 +296,9 @@ public class LandingActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.nav_reservation_history) {
             Intent i = new Intent(LandingActivity.this, ReservationHistoryActivity.class);
+            startActivity(i);
+        } else if (id == R.id.nav_settings) {
+            Intent i = new Intent(LandingActivity.this, SettingsActivity.class);
             startActivity(i);
         }
 
