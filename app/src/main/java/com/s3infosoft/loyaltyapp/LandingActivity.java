@@ -22,7 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.icy.chatscreen.SettingsActivity;
 import com.s3infosoft.loyaltyapp.adapter.ProductAdapter;
 import com.s3infosoft.loyaltyapp.adapter.ReservationHistoryAdapter;
 import com.s3infosoft.loyaltyapp.adapter.SpecialDealAdapter;
@@ -58,7 +57,7 @@ public class LandingActivity extends AppCompatActivity
     SpecialDealAdapter specialDealAdapter;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference, usersReference, specialDealReference;
-    int points = 0;
+    int points;
     String userLevel;
     ImageView profile_img;
     TextView user_level;
@@ -84,23 +83,15 @@ public class LandingActivity extends AppCompatActivity
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(firebaseUser == null ? "null": firebaseUser.getUid());
 
         progressBar1 = (ProgressBar) findViewById(R.id.progressBar1);
         progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
 
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "id");
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "name");
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
-        mFirebaseAnalytics.setMinimumSessionDuration(10000);
-        mFirebaseAnalytics.setSessionTimeoutDuration(500);
-        mFirebaseAnalytics.setUserId(String.valueOf("idid"));
-        mFirebaseAnalytics.setUserProperty("Product", "Product Name");
-
         profile_img = (ImageView) findViewById(R.id.profile_img);
-        if (firebaseUser.getPhotoUrl() == null)
+
+        if (firebaseUser == null)
         {
             Glide.with(this).load("https://swopstakes.com/wp-content/themes/uncode-child-ss/images/user-profile.png").circleCrop().into(profile_img);
         }
@@ -121,6 +112,21 @@ public class LandingActivity extends AppCompatActivity
         databaseReference = firebaseDatabase.getReference("/product");
         usersReference = firebaseDatabase.getReference("/users/uid");
         specialDealReference = firebaseDatabase.getReference("/special_deals");
+
+        usersReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
+                points = Integer.parseInt(hashMap.get("points").toString());
+                userLevel = hashMap.get("level").toString();
+                user_level.setText(userLevel);
+                updatePoints(points);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -183,6 +189,14 @@ public class LandingActivity extends AppCompatActivity
 
             @Override
             public void onClick(View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, specialDeals.get(position).getName());
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, specialDeals.get(position).getName());
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Special Deals");
+                bundle.putInt(FirebaseAnalytics.Param.VALUE, specialDeals.get(position).getPoints());
+                bundle.putString(FirebaseAnalytics.Param.VIRTUAL_CURRENCY_NAME, "Points");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                mFirebaseAnalytics.setUserProperty("Choose Special Deals", specialDeals.get(position).getName());
                 Intent i = new Intent(LandingActivity.this, RedeemActivity.class);
                 i.putExtra("name", products.get(position).getName());
                 i.putExtra("desc", products.get(position).getDesc());
@@ -278,6 +292,7 @@ public class LandingActivity extends AppCompatActivity
             Intent i = new Intent(this, CartActivity.class);
             startActivity(i);
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -295,19 +310,11 @@ public class LandingActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.nav_reservation_history) {
             Intent i = new Intent(LandingActivity.this, ReservationHistoryActivity.class);
-
-        } else if (id == R.id.nav_settings) {
-            Intent i = new Intent(LandingActivity.this, SettingsActivity.class);
             startActivity(i);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return false;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 }

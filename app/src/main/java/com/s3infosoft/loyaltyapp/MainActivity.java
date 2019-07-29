@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
 public class MainActivity extends AppCompatActivity {
 
     List<Hotel> hotels = new ArrayList<>();
