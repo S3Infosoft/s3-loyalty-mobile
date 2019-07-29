@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,14 +41,14 @@ public class RedeemActivity extends AppCompatActivity {
     int required_points = 0;
     DatabaseHandler databaseHandler;
     CartItem cartItem;
+    FirebaseAnalytics mFirebaseAnalytics;
     FirebaseUser firebaseUser;
+    String productid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel);
-
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         getSupportActionBar().setTitle("Redeem Points");
         builder = new AlertDialog.Builder(this);
@@ -58,6 +59,12 @@ public class RedeemActivity extends AppCompatActivity {
         desc = (TextView) findViewById(R.id.desc);
         logo = (ImageView) findViewById(R.id.logo);
         pointsTextView = (TextView) findViewById(R.id.points);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(firebaseUser == null ? "null": firebaseUser.getUid());
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -72,11 +79,29 @@ public class RedeemActivity extends AppCompatActivity {
         cartItem = new CartItem(name.getText().toString(), i.getStringExtra("id"), desc.getText().toString(), i.getStringExtra("logo_url"), 1, required_points);
 
         Glide.with(this).load(i.getStringExtra("logo_url")).into(logo);
+
+        productid = i.getStringExtra("id");
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, productid);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, i.getStringExtra("name"));
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "product");
+        bundle.putInt(FirebaseAnalytics.Param.VALUE, required_points);
+        bundle.putString(FirebaseAnalytics.Param.VIRTUAL_CURRENCY_NAME, "Points");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        mFirebaseAnalytics.setUserProperty("Choose Product", i.getStringExtra("name"));
     }
 
     public void buyClick(View view) {
         if (databaseHandler.addItem(cartItem))
         {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, productid);
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name.getText().toString());
+            bundle.putInt(FirebaseAnalytics.Param.VALUE, required_points);
+            bundle.putString(FirebaseAnalytics.Param.VIRTUAL_CURRENCY_NAME, "Points");
+            bundle.putInt(FirebaseAnalytics.Param.QUANTITY, 1);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.ADD_TO_CART, bundle);
             Toast.makeText(this, "Item Added to Cart", Toast.LENGTH_SHORT).show();
         }
         else
@@ -84,7 +109,6 @@ public class RedeemActivity extends AppCompatActivity {
             Toast.makeText(this, "Already in a Cart", Toast.LENGTH_SHORT).show();
         }
         /*databaseReference = firebaseDatabase.getReference("/order_history/uid");
-        databaseReference = firebaseDatabase.getReference("/order_history/"+firebaseUser.getUid());
         final DatabaseReference usersReference = firebaseDatabase.getReference("/users/uid");
         usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -142,11 +166,5 @@ public class RedeemActivity extends AppCompatActivity {
 
             }
         });*/
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 }
