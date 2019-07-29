@@ -2,6 +2,7 @@ package com.icy.chatscreen;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -38,27 +40,30 @@ public class SettingsActivity extends AppCompatActivity {
     List<String> l1;
 ArrayAdapter<String> aaa;
 public int sett;
-
-public SettingsActivity(){}
-public SettingsActivity(int j){
-    this.sett=j;
-}
-    public int getSett() {
-        return sett;
-    }
-
-    public void setSett(int sett) {
-        this.sett = sett;
-    }
+FirebaseAuth mAuth;
+FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settingspage);
+
+
+        mAuth = FirebaseAuth.getInstance();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(mAuth.getCurrentUser()==null?"null":mAuth.getCurrentUser().getUid());
+
         ListView lv= findViewById(R.id.listviewsettings);
-        Toast.makeText(this, String.valueOf(sett)+"   oho", Toast.LENGTH_SHORT).show();
     l1= new ArrayList<String>();
-//google
+
+        SharedPreferences preferences=getApplicationContext().getSharedPreferences("MyPref",0);
+        SharedPreferences.Editor editor=preferences.edit();
+        sett=preferences.getInt("sett",0);
+
+
+    //google
     if(sett==1) {
         l1.add("Change Phone Number");
         l1.add("Account Details");
@@ -78,7 +83,7 @@ public SettingsActivity(int j){
             l1.add("Privacy Policy and Terms of Service");
         }
 
-    else if(sett==0) {
+    else if(sett==3) {
         l1.add("Change Password");
         l1.add("Change Email Address");
         l1.add("Change Phone Number");
@@ -95,45 +100,9 @@ public SettingsActivity(int j){
          @Override
          public void onItemClick(final AdapterView<?> adapterView, View view, int i, long l) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+             Bundle bundle = new Bundle();
+             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, l1.get(i).toString());
+             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
              if(sett==1) {
                  i = i + 3;
@@ -260,7 +229,7 @@ public SettingsActivity(int j){
 
 
 
-         if(sett==0) {
+         if(sett==3) {
              i = i + 1;
              if (i == 1) {
 //                 Intent iam = new Intent(SettingsActivity.this,Chpass.class);

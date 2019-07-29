@@ -152,9 +152,10 @@ public class LandingActivity extends AppCompatActivity
         specialDealReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.v("#DDDD", dataSnapshot.getValue().toString());
+
                 for (DataSnapshot hotelSnapshot: dataSnapshot.getChildren())
                 {
+                    Log.v("#DDDD", dataSnapshot.getValue().toString());
                     Log.v("#EEEE", hotelSnapshot.getValue().toString());
                     List<String> image_urls = new ArrayList<String>();
                     HashMap<String,Object> list = (HashMap<String, Object>) hotelSnapshot.getValue();
@@ -245,7 +246,7 @@ public class LandingActivity extends AppCompatActivity
         recyclerView1.setAdapter(specialDealAdapter);
     }
 
-    private void updatePoints(int points) {
+    private void updatePoints(int points, Menu menu) {
         MenuItem menuItem = menu.findItem(R.id.action_points);
         menuItem.setTitle(""+points+" PTS");
     }
@@ -261,9 +262,23 @@ public class LandingActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.landing, menu);
+    public boolean onCreateOptionsMenu(final Menu menu) {
         this.menu = menu;
+        getMenuInflater().inflate(R.menu.landing, menu);
+        usersReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
+                points = Integer.parseInt(hashMap.get("points").toString());
+                userLevel = hashMap.get("level").toString();
+                user_level.setText(userLevel);
+                updatePoints(points, menu);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         return true;
     }
 

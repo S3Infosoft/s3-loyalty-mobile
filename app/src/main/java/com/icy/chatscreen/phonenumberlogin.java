@@ -1,6 +1,7 @@
 package com.icy.chatscreen;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -42,17 +44,24 @@ public class phonenumberlogin extends AppCompatActivity {
     Button getotp, signinwithphone;
     FirebaseAuth firebaseAuth;
     String samcode, mobnum;
+    FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.phonenumberlogin);
 
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(firebaseAuth.getCurrentUser()==null?"null":firebaseAuth.getCurrentUser().getUid());
+
         phonenumber = findViewById(R.id.mobilenumbergoes);
         otpnumber = findViewById(R.id.otpgoes);
         getotp = findViewById(R.id.getotpbutton);
         signinwithphone = findViewById(R.id.phonenumbersigninraata);
-        firebaseAuth = FirebaseAuth.getInstance();
 
         getotp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,13 +136,19 @@ public class phonenumberlogin extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
+
+                            Bundle bundle = new Bundle();
+                            bundle.putString(FirebaseAnalytics.Param.METHOD, "phone");
+                            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
+
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(phonenumberlogin.this, "You have signed in succesfully", Toast.LENGTH_SHORT).show();
                             storedata();
                             Intent i = new Intent(phonenumberlogin.this, LandingActivity.class);
-                 SettingsActivity s3in = new SettingsActivity(2);
-                 s3in.setSett(2);
-                            startActivity(i);
+                            SharedPreferences preferences = getApplicationContext().getSharedPreferences("MyPref",0);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putInt("sett",2);
+                            editor.commit();startActivity(i);
                             finish();
 
                             FirebaseUser user = task.getResult().getUser();

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.Timestamp;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -69,11 +71,18 @@ Button registernew,forgotpasswordemail;
 
     EditText emailet,passet;
 ImageButton imgsign,spbh;
+FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactlogin);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(mAuth.getCurrentUser()==null?"null":mAuth.getCurrentUser().getUid());
 
 
 /*
@@ -160,6 +169,10 @@ ImageButton imgsign,spbh;
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 if(val9870==true){
+
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString(FirebaseAnalytics.Param.METHOD, "email");
+                                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
                                     Toast.makeText(MainActivity.this, "Sign In Success", Toast.LENGTH_SHORT).show();
                                     Intent i = new Intent(MainActivity.this, LandingActivity.class);
                                     startActivity(i);
@@ -246,7 +259,10 @@ ImageButton imgsign,spbh;
 
                                     Snackbar.make(view,"Sign In Succesful",Snackbar.LENGTH_LONG).show();
                             Intent i = new Intent(MainActivity.this, LandingActivity.class);
-                            SettingsActivity s3in = new SettingsActivity(3);
+                                    SharedPreferences preferences = getApplicationContext().getSharedPreferences("MyPref",0);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putInt("sett",3);
+                                    editor.commit();
                             startActivity(i);
                             finish();
                             }
@@ -365,6 +381,10 @@ Intent i = new Intent(MainActivity.this,ListItem.class);
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
+                            Bundle bundle = new Bundle();
+                            bundle.putString(FirebaseAnalytics.Param.METHOD, "Google");
+                            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(MainActivity.this, "Sign in Success", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
@@ -482,11 +502,13 @@ Intent i = new Intent(MainActivity.this,ListItem.class);
 
 
                             Intent i = new Intent(MainActivity.this,LandingActivity.class);
-                            SettingsActivity s3in=new SettingsActivity(1);
-//                            s3in.setSett(1);
-
+                            SharedPreferences preferences = getApplicationContext().getSharedPreferences("MyPref",0);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putInt("sett",1);
+                            editor.commit();
                             startActivity(i);
                             finish();
+
                         } else {
                             // If sign in fails, display a message to th
                             Toast.makeText(MainActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
@@ -522,6 +544,7 @@ Intent i = new Intent(MainActivity.this,ListItem.class);
                 Intent i = new Intent(MainActivity.this, LandingActivity.class);
                 startActivity(i);
                 finish();
+
             }
 //            FirebaseAuth.getInstance().signOut();
         }

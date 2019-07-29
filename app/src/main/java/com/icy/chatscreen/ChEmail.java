@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApiNotAvailableException;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -33,6 +34,8 @@ import java.util.Map;
 public class ChEmail extends AppCompatActivity {
     EditText et1,et2,pass;
     Button emailchange;
+    FirebaseAuth firebaseAuth;
+    FirebaseAnalytics mFirebaseAnalytics;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,12 @@ public class ChEmail extends AppCompatActivity {
         et2=findViewById(R.id.editText2em);
         emailchange = findViewById(R.id.buttonem);
         pass=findViewById(R.id.passwordemailchange);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(firebaseAuth.getCurrentUser()==null?"null":firebaseAuth.getCurrentUser().getUid());
 
         emailchange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +75,10 @@ public class ChEmail extends AppCompatActivity {
                             public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
                         if(task.isSuccessful()){
                             if(task.getResult().getSignInMethods().size()==1){
+                                Bundle bundle = new Bundle();
+                                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Change Email");
+                                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                                 Toast.makeText(ChEmail.this, "User Already Exists", Toast.LENGTH_SHORT).show();
                             }else{
                                 final FirebaseUser user1=FirebaseAuth.getInstance().getCurrentUser();

@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.Timestamp;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -55,6 +56,7 @@ public class ListItem extends AppCompatActivity implements AdapterView.OnItemSel
 
 
     FirebaseAuth firebaseAuth;
+    FirebaseAnalytics mFirebaseAnalytics;
 
 
     private DatePickerDialog.OnDateSetListener datePickerDialog,marriagedatepicker;
@@ -88,7 +90,12 @@ public class ListItem extends AppCompatActivity implements AdapterView.OnItemSel
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-    bddate.setOnClickListener(new View.OnClickListener() {
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(firebaseAuth.getCurrentUser()==null?"null":firebaseAuth.getCurrentUser().getUid());
+
+
+        bddate.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Calendar cal= Calendar.getInstance();
@@ -192,6 +199,9 @@ boolean chi=checkStrength(s.toString());
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            Bundle bundle = new Bundle();
+                            bundle.putString(FirebaseAnalytics.Param.METHOD, "email");
+                            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
 
 
                             userregdetails user = new userregdetails(

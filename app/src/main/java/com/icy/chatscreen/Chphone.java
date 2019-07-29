@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,6 +44,7 @@ public class Chphone extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
     FirebaseAuth.AuthStateListener authStateListener;
+    FirebaseAnalytics mFirebaseAnalytics;
 
 
     @Override
@@ -61,6 +63,10 @@ public class Chphone extends AppCompatActivity {
         firebaseUser=firebaseAuth.getCurrentUser();
         userid=firebaseUser.getUid();
         databaseReference=firebaseDatabase.getReference();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(firebaseAuth.getCurrentUser()==null?"null":firebaseAuth.getCurrentUser().getUid());
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -106,6 +112,10 @@ if(entredotp.equals(thisislolab)){
         @Override
         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
             if(task.isSuccessful()){
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Change Phone Number");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                 DocumentSnapshot documentSnapshot = task.getResult();
                 Map<String,Object> sambro= documentSnapshot.getData();
                 sambro.put("phonenum",pass1);

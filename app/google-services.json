@@ -52,14 +52,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "960994978688-22akt3n4t0kde7bote41ivd8brldk9hh.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.s3infosoft.loyaltyapp",
-            "certificate_hash": "728a70667cc82e2408332c5620697164ecdaf4e2"
-          }
-        },
-        {
           "client_id": "960994978688-rclquok1sbtt93hk85jbb32g3gg87vn7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

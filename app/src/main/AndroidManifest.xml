@@ -32,7 +32,7 @@
             android:label="Buy Points"/>
         <activity
             android:name=".MainActivity"
-            android:label="Loyalty App"
+            android:label="Loy App"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SpecialDealsActivity" />
         <activity android:name=".ProductActivity" />
@@ -43,11 +43,6 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
       <activity android:name="com.icy.chatscreen.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.icy.chatscreen.phonenumberlogin"/>
         <activity android:name="com.icy.chatscreen.ListItem"/>

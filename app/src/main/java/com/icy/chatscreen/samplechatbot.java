@@ -10,6 +10,8 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.s3infosoft.loyaltyapp.R;
 
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ public class samplechatbot extends AppCompatActivity {
     Button button;
     List<String> l1;
     ArrayAdapter<String> adapter1;
+    FirebaseAuth firebaseAuth;
+    FirebaseAnalytics mFirebaseAnalytics;
 
 
 
@@ -37,6 +41,13 @@ public class samplechatbot extends AppCompatActivity {
         button=findViewById(R.id.sendbut);
 
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setUserId(firebaseAuth.getCurrentUser()==null?"null":firebaseAuth.getCurrentUser().getUid());
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,6 +58,10 @@ public class samplechatbot extends AppCompatActivity {
                 l1.add("S3Bot :  "+ans);
                 editText.setText("");
                 listView.setSelection(l1.size()-1);
+                Bundle bundle = new Bundle();
+                bundle.putString("question", msg);
+                bundle.putString("answer", ans);
+                mFirebaseAnalytics.logEvent("chatbot", bundle);
             }
         });
 
