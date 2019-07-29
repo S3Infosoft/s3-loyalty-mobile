@@ -113,21 +113,6 @@ public class LandingActivity extends AppCompatActivity
         usersReference = firebaseDatabase.getReference("/users/uid");
         specialDealReference = firebaseDatabase.getReference("/special_deals");
 
-        usersReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                points = Integer.parseInt(hashMap.get("points").toString());
-                userLevel = hashMap.get("level").toString();
-                user_level.setText(userLevel);
-                updatePoints(points);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
