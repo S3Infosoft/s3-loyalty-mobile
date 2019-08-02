@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -63,6 +64,11 @@ public class ReservationHistoryActivity extends AppCompatActivity {
                         productAdapter.notifyDataSetChanged();
                         progressBar.setVisibility(View.GONE);
                     }
+                }
+                else
+                {
+                    Toast.makeText(ReservationHistoryActivity.this, "No Reservation Found", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 }
             }
 

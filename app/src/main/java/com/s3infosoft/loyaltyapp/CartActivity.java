@@ -119,26 +119,28 @@ public class CartActivity extends AppCompatActivity {
 
     public void buyNow(View view)
     {
-        databaseReference = firebaseDatabase.getReference("/order_history/uid");
-        final DatabaseReference usersReference = firebaseDatabase.getReference("/users/uid");
+        databaseReference = firebaseDatabase.getReference("/order_history/"+(firebaseUser==null?"uid":firebaseUser.getUid()));
+        final DatabaseReference usersReference = firebaseDatabase.getReference("/users/"+(firebaseUser==null?"uid":firebaseUser.getUid()));
         usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
                 points = Integer.parseInt(hashMap.get("points").toString());
 
-                for (CartItem cartItem : databaseHandler.getAllCartItem())
+                List<CartItem> cartItemList = databaseHandler.getAllCartItem();
+
+                for (CartItem cartItem : cartItemList)
                 {
                     required_points = required_points + cartItem.getAmount();
                 }
 
-                if (points >= required_points)
+                if (points >= required_points && cartItemList.isEmpty() == false)
                 {
                     for (final CartItem cartItem : databaseHandler.getAllCartItem())
                     {
                         Map<String, Object> order = new HashMap<String, Object>();
-                        order.put("desc",cartItem.getItem_desc());
-                        order.put("amount", cartItem.getAmount());
+                        order.put("desc",cartItem.getItem_name());
+                        order.put("amount", cartItem.getQuantity()*cartItem.getAmount());
                         final String key = databaseReference.push().getKey();
                         databaseReference.child("/"+key).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override

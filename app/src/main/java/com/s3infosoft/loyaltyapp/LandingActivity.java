@@ -111,7 +111,7 @@ public class LandingActivity extends AppCompatActivity
         keys = new ArrayList<>();
 
         databaseReference = firebaseDatabase.getReference("/product");
-        usersReference = firebaseDatabase.getReference("/users/uid");
+        usersReference = firebaseDatabase.getReference("/users/"+(firebaseUser == null ? "uid": firebaseUser.getUid()));
         specialDealReference = firebaseDatabase.getReference("/special_deals");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -254,11 +254,22 @@ public class LandingActivity extends AppCompatActivity
         usersReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                points = Integer.parseInt(hashMap.get("points").toString());
-                userLevel = hashMap.get("level").toString();
-                user_level.setText(userLevel);
-                updatePoints(points, menu);
+                if (dataSnapshot.exists())
+                {
+                    HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
+                    points = Integer.parseInt(hashMap.get("points").toString());
+                    userLevel = hashMap.get("level").toString();
+                    user_level.setText(userLevel);
+                    updatePoints(points, menu);
+                }
+                else
+                {
+                    usersReference.child("points").setValue(0);
+                    usersReference.child("level").setValue("Bronze");
+                    points = 0;
+                    userLevel = "Bronze";
+                    updatePoints(points, menu);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

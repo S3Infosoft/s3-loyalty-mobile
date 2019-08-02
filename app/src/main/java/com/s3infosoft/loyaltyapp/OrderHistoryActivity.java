@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,12 +61,11 @@ public class OrderHistoryActivity extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("/order_history/uid");
+        databaseReference = firebaseDatabase.getReference("/order_history/"+(firebaseUser==null?"uid":firebaseUser.getUid()));
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.v("#DDDD", dataSnapshot.getValue().toString());
                 if(dataSnapshot.exists())
                 {
                     for (DataSnapshot hotelSnapshot: dataSnapshot.getChildren())
@@ -76,6 +76,11 @@ public class OrderHistoryActivity extends AppCompatActivity {
                         productAdapter.notifyDataSetChanged();
                         progressBar.setVisibility(View.GONE);
                     }
+                }
+                else
+                {
+                    Toast.makeText(OrderHistoryActivity.this, "No Orders Found", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 }
             }
 

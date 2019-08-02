@@ -58,8 +58,8 @@ public class PurchaseActivity extends AppCompatActivity implements PaymentResult
         amount = (EditText) findViewById(R.id.amount);
 
         db = FirebaseDatabase.getInstance();
-        orderReference = db.getReference("/order_history/uid");
-        userReference = db.getReference("/users/uid");
+        orderReference = db.getReference("/order_history/"+(firebaseUser==null?"uid":firebaseUser.getUid()));
+        userReference = db.getReference("/users/"+(firebaseUser==null?"uid":firebaseUser.getUid()));
 
         builder = new AlertDialog.Builder(this);
         fetchPoints();
@@ -72,8 +72,15 @@ public class PurchaseActivity extends AppCompatActivity implements PaymentResult
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                points = Integer.parseInt(hashMap.get("points").toString());
+                if (dataSnapshot.exists())
+                {
+                    HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
+                    points = Integer.parseInt(hashMap.get("points").toString());
+                }
+                else
+                {
+                    points = 0;
+                }
             }
 
             @Override
