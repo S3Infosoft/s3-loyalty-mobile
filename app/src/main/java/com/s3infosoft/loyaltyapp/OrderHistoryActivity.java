@@ -60,6 +60,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+        //test commit
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("/order_history/"+(firebaseUser==null?"uid":firebaseUser.getUid()));
 
