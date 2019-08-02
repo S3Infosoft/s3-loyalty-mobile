@@ -65,7 +65,7 @@ FirebaseAnalytics mFirebaseAnalytics;
 
     //google
     if(sett==1) {
-        l1.add("Change Phone Number");
+        //l1.add("Change Phone Number");
         l1.add("Account Details");
         l1.add("Logout");
         l1.add("Chat With US");
@@ -86,7 +86,6 @@ FirebaseAnalytics mFirebaseAnalytics;
     else if(sett==3) {
         l1.add("Change Password");
         l1.add("Change Email Address");
-        l1.add("Change Phone Number");
         l1.add("Account Details");
         l1.add("Logout");
         l1.add("Chat With US");
@@ -105,7 +104,7 @@ FirebaseAnalytics mFirebaseAnalytics;
              mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
              if(sett==1) {
-                 i = i + 3;
+                 i = i + 4;
                  if (i == 1) {
 //                 Intent iam = new Intent(SettingsActivity.this,Chpass.class);
 //                 startActivity(iam);
@@ -255,12 +254,9 @@ FirebaseAnalytics mFirebaseAnalytics;
                  Intent iam = new Intent(SettingsActivity.this, ChEmail.class);
                  startActivity(iam);
              } else if (i == 3) {
-                 Intent iam = new Intent(SettingsActivity.this, Chphone.class);
-                 startActivity(iam);
-             } else if (i == 4) {
                  Intent iam = new Intent(SettingsActivity.this, AcctInfActivity.class);
                  startActivity(iam);
-             } else if (i == 5) {
+             } else if (i == 4) {
                  FirebaseAuth.getInstance().signOut();
                  GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                          .requestEmail()
@@ -271,11 +267,11 @@ FirebaseAnalytics mFirebaseAnalytics;
                  startActivity(ij);
                  finish();
 
-             } else if (i == 6) {
+             } else if (i == 5) {
                  Intent ij = new Intent(SettingsActivity.this, samplechatbot.class);
                  startActivity(ij);
 
-             } else if (i == 7) {
+             } else if (i == 6) {
                  try {
                      Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + "bloglover19920002@gmail.com"));
                      intent.putExtra(Intent.EXTRA_SUBJECT, "Suggestions / Issues / Complaints");
@@ -285,7 +281,7 @@ FirebaseAnalytics mFirebaseAnalytics;
                      Toast.makeText(SettingsActivity.this, "something went wrong try again later", Toast.LENGTH_SHORT).show();
                  }
 
-             } else if (i == 8) {
+             } else if (i == 7) {
              }
          }
 

@@ -397,4 +397,9 @@ selectedcity=autoram.getText().toString();
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    startActivity(new Intent(ListItem.this,com.icy.chatscreen.MainActivity.class));
+    }
 }
