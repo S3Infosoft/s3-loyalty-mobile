@@ -66,7 +66,7 @@ public class SpecialDealsActivity extends AppCompatActivity {
                         image_urls.add(m.get("image_url").toString());
                     }
 
-                    specialDeals.add(new SpecialDeal(list.get("name").toString(), list.get("description").toString(), image_urls, 8000));
+                    specialDeals.add(new SpecialDeal(list.get("name").toString(), list.get("description").toString(), image_urls, list.get("hotel_id").toString(), 8000));
                     //Log.v("#####", list.get("name")+" "+list.get("metadata").toString());
                     specialDealAdapter.notifyDataSetChanged();
                 }

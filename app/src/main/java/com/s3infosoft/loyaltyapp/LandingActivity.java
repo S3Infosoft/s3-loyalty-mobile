@@ -158,7 +158,7 @@ public class LandingActivity extends AppCompatActivity
                         image_urls.add(m.get("image_url").toString());
                     }
 
-                    specialDeals.add(new SpecialDeal(list.get("name").toString(), list.get("description").toString(), image_urls, 8000));
+                    specialDeals.add(new SpecialDeal(list.get("name").toString(), list.get("description").toString(), image_urls, list.get("hotel_id").toString(), 8000));
                     //Log.v("#####", list.get("name")+" "+list.get("metadata").toString());
                     specialDealAdapter.notifyDataSetChanged();
                     progressBar2.setVisibility(View.GONE);
@@ -203,10 +203,7 @@ public class LandingActivity extends AppCompatActivity
             @Override
             public void onClick(View view, int position) {
                 Intent i = new Intent(LandingActivity.this, ReservationActivity.class);
-                i.putExtra("name", products.get(position).getName());
-                i.putExtra("desc", products.get(position).getDesc());
-                i.putExtra("logo_url", products.get(position).getLogo_url());
-                i.putExtra("points", products.get(position).getPoints());
+                i.putExtra("hotel_id", specialDeals.get(position).getHotelid());
                 startActivity(i);
             }
 
