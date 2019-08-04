@@ -111,7 +111,7 @@ public class LandingActivity extends AppCompatActivity
         keys = new ArrayList<>();
 
         databaseReference = firebaseDatabase.getReference("/product");
-        usersReference = firebaseDatabase.getReference("/users/"+(firebaseUser == null ? "uid": firebaseUser.getUid()));
+        usersReference = firebaseDatabase.getReference("/Users/"+(firebaseUser == null ? "uid": firebaseUser.getUid()));
         specialDealReference = firebaseDatabase.getReference("/special_deals");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -232,9 +232,17 @@ public class LandingActivity extends AppCompatActivity
         recyclerView1.setAdapter(specialDealAdapter);
     }
 
-    private void updatePoints(int points, Menu menu) {
-        MenuItem menuItem = menu.findItem(R.id.action_points);
-        menuItem.setTitle(""+points+" PTS");
+    private void updatePoints(int points) {
+        if (this.menu!=null)
+        {
+            Log.v("#####", "Not Null");
+            MenuItem menuItem = menu.findItem(R.id.action_points);
+            menuItem.setTitle(""+points+" PTS");
+        }
+        else
+        {
+            Log.v("#####", "Null");
+        }
     }
 
     @Override
@@ -254,13 +262,13 @@ public class LandingActivity extends AppCompatActivity
         usersReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists())
+                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 1)
                 {
                     HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
                     points = Integer.parseInt(hashMap.get("points").toString());
                     userLevel = hashMap.get("level").toString();
                     user_level.setText(userLevel);
-                    updatePoints(points, menu);
+                    updatePoints(points);
                 }
                 else
                 {
@@ -268,7 +276,7 @@ public class LandingActivity extends AppCompatActivity
                     usersReference.child("level").setValue("Bronze");
                     points = 0;
                     userLevel = "Bronze";
-                    updatePoints(points, menu);
+                    updatePoints(points);
                 }
             }
             @Override

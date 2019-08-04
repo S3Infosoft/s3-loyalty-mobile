@@ -116,7 +116,6 @@ FirebaseAnalytics mFirebaseAnalytics;
                                      Snackbar.make(adapterView, "Password Reset Link has been sent", Snackbar.LENGTH_LONG).show();
                                  } else {
                                      Snackbar.make(adapterView, "Some Error Occured", Snackbar.LENGTH_SHORT).show();
-                                     ;
                                  }
                              }
                          });
