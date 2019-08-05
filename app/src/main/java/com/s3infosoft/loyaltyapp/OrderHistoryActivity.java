@@ -32,6 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +75,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
                         HashMap<String, Object> hashMap = (HashMap<String, Object>) hotelSnapshot.getValue();
 
                         orders.add(new Order(hashMap.get("desc").toString(),Integer.parseInt(hashMap.get("amount").toString())));
+                        Collections.reverse(orders);
                         productAdapter.notifyDataSetChanged();
                         progressBar.setVisibility(View.GONE);
                     }

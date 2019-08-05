@@ -30,12 +30,13 @@
                 android:padding="5dp"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:text="30% off"/>
+                android:text=""
+                android:fontFamily="@font/abeezee"/>
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewPager"
                 android:layout_width="wrap_content"
-                android:layout_height="120dp"
+                android:layout_height="150dp"
                 android:layout_below="@id/hotel_name"/>
 
             <LinearLayout
@@ -53,16 +54,68 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:layout_below="@+id/SliderDots"
-                android:text="address"/>
+                android:text="address"
+                android:fontFamily="@font/abeezee"/>
 
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Book Now"
-        android:onClick="bookNow"/>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="30sp"
+                android:textColor="@android:color/holo_red_dark"
+                android:paddingLeft="8dp"
+                android:fontFamily="@font/abeezee"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enter No. of Person "
+                    android:fontFamily="@font/abeezee"/>
+
+                <EditText
+                    android:id="@+id/noOfPerson"
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/abeezee"/>
+
+                <Button
+                    android:id="@+id/selectDateBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SELECT DATE"
+                    android:onClick="selectDate"
+                    android:fontFamily="@font/abeezee"/>
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Book Now"
+                android:onClick="bookNow"
+                android:fontFamily="@font/abeezee"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

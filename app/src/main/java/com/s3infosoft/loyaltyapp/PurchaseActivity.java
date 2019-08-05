@@ -59,7 +59,7 @@ public class PurchaseActivity extends AppCompatActivity implements PaymentResult
 
         db = FirebaseDatabase.getInstance();
         orderReference = db.getReference("/order_history/"+(firebaseUser==null?"uid":firebaseUser.getUid()));
-        userReference = db.getReference("/users/"+(firebaseUser==null?"uid":firebaseUser.getUid()));
+        userReference = db.getReference("/Users/"+(firebaseUser==null?"uid":firebaseUser.getUid()));
 
         builder = new AlertDialog.Builder(this);
         fetchPoints();
@@ -137,7 +137,16 @@ public class PurchaseActivity extends AppCompatActivity implements PaymentResult
 
     @Override
     public void onPaymentError(int i, String s) {
-
+        builder.setMessage("Error : "+s)
+                .setCancelable(false)
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.setTitle("Payment Failed");
+        alert.show();
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.VALUE, amount.getText().toString());
         mFirebaseAnalytics.logEvent("PAYMENT_FAILED", bundle);

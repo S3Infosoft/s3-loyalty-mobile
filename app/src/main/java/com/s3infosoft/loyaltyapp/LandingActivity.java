@@ -204,6 +204,8 @@ public class LandingActivity extends AppCompatActivity
             public void onClick(View view, int position) {
                 Intent i = new Intent(LandingActivity.this, ReservationActivity.class);
                 i.putExtra("hotel_id", specialDeals.get(position).getHotelid());
+                i.putExtra("points", specialDeals.get(position).getPoints());
+                i.putExtra("userPoints", points);
                 startActivity(i);
             }
 

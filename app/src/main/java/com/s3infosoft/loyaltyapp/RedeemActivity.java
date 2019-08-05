@@ -103,6 +103,8 @@ public class RedeemActivity extends AppCompatActivity {
             bundle.putInt(FirebaseAnalytics.Param.QUANTITY, 1);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.ADD_TO_CART, bundle);
             Toast.makeText(this, "Item Added to Cart", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, CartActivity.class);
+            startActivity(i);
         }
         else
         {
