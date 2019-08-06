@@ -59,7 +59,6 @@ public class ReservationHistoryActivity extends AppCompatActivity {
         databaseReference.orderByChild("booking_date").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.v("#DDDD", dataSnapshot.getValue().toString());
                 if(dataSnapshot.exists())
                 {
                     for (DataSnapshot hotelSnapshot: dataSnapshot.getChildren())

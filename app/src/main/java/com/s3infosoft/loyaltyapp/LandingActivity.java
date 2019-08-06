@@ -261,7 +261,7 @@ public class LandingActivity extends AppCompatActivity
         usersReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 1)
+                if (dataSnapshot.exists() && dataSnapshot.hasChild("points") == true && dataSnapshot.hasChild("level") == true)
                 {
                     HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
                     points = Integer.parseInt(hashMap.get("points").toString());
