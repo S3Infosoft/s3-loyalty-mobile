@@ -137,6 +137,11 @@ public class PurchaseActivity extends AppCompatActivity implements PaymentResult
 
     @Override
     public void onPaymentError(int i, String s) {
+        Map<String, Object> order = new HashMap<String, Object>();
+        order.put("desc",""+s);
+        order.put("amount", Integer.parseInt(amount.getText().toString()));
+        final String key = orderReference.push().getKey();
+        orderReference.child("/"+key).setValue(order);
         builder.setMessage("Error : "+s)
                 .setCancelable(false)
                 .setPositiveButton("Done", new DialogInterface.OnClickListener() {
