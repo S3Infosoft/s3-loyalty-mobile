@@ -68,7 +68,7 @@ public class phonenumberlogin extends AppCompatActivity {
             public void onClick(View view) {
                 mobnum = phonenumber.getText().toString();
                 if (mobnum.isEmpty() || mobnum.length() < 10) {
-                    phonenumber.setError("Please Enter 10 Digit Mobile Number with country code");
+                    phonenumber.setError("Please Enter 10 Digit Mobile Number");
                     Snackbar.make(view, "Please Enter 10 digit mobile number", Snackbar.LENGTH_LONG).show();
                 } else {
                     sendotp(mobnum);
@@ -93,6 +93,7 @@ public class phonenumberlogin extends AppCompatActivity {
     }
 
     private void sendotp(String mobnum) {
+        mobnum = "+91"+mobnum;
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 mobnum,        // Phone number to verify
                 60,                 // Timeout duration

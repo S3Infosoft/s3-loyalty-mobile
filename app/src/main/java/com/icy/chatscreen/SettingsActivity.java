@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -178,7 +179,7 @@ FirebaseAnalytics mFirebaseAnalytics;
                                      Snackbar.make(adapterView, "Password Reset Link has been sent", Snackbar.LENGTH_LONG).show();
                                  } else {
                                      Snackbar.make(adapterView, "Some Error Occured", Snackbar.LENGTH_SHORT).show();
-                                     ;
+
                                  }
                              }
                          });
@@ -188,7 +189,7 @@ FirebaseAnalytics mFirebaseAnalytics;
                      }
 
                  } else if (i == 2) {
-                     Intent iam = new Intent(SettingsActivity.this, ChEmail.class);
+                     Intent iam = new Intent(SettingsActivity.this, Chemail12ph.class);
                      startActivity(iam);
                  } else if (i == 0) {
                      Intent iam = new Intent(SettingsActivity.this, Chphone.class);
@@ -238,15 +239,26 @@ FirebaseAnalytics mFirebaseAnalytics;
                          public void onComplete(@NonNull Task<Void> task) {
                              if (task.isSuccessful()) {
                                  Snackbar.make(adapterView, "Password Reset Link has been sent", Snackbar.LENGTH_LONG).show();
+                                 CountDownTimer c = new CountDownTimer(3000,1000) {
+                                     @Override
+                                     public void onTick(long millisUntilFinished) {
+
+                                     }
+
+                                     @Override
+                                     public void onFinish() {
+                                         startActivity(new Intent(SettingsActivity.this,com.icy.chatscreen.MainActivity.class));
+                                         finish();
+                                     }
+                                 }.start();
                              } else {
                                  Snackbar.make(adapterView, "Some Error Occured", Snackbar.LENGTH_SHORT).show();
-                                 ;
                              }
                          }
                      });
 
                  } catch (Exception e) {
-                     Toast.makeText(SettingsActivity.this, "You can Only Change password if you are registered", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(SettingsActivity.this, "Sorry for Inconvenience , Try Again Later", Toast.LENGTH_SHORT).show();
                  }
 
              } else if (i == 2) {
