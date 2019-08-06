@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:id="@+id/useless123"
+        android:layout_centerHorizontal="true"
+        android:text="Change Email Address"/>
+    <Button
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/editText2em"
+        android:id="@+id/buttonem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Email" />
+
+
+
+    <EditText
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/useless123"
+        android:hint="Enter New Email Address"
+        android:id="@+id/editTextem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="12"
+        android:inputType="textPersonName"
+        />
+
+    <EditText
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/editTextem"
+        android:hint="Re Enter Email Address"
+        android:id="@+id/editText2em"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="12"
+        android:inputType="textPersonName"
+        />
+
+</RelativeLayout>

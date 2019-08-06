@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.icy.chatscreen.Chemail12ph"/>
         <activity android:name=".ReservationHistoryActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".ReservationActivity" />

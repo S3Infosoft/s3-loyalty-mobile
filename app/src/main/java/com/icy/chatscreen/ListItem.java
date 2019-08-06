@@ -193,6 +193,7 @@ boolean chi=checkStrength(s.toString());
                 Snackbar.make(view,"Please Enter The required Fields" ,LENGTH_LONG).show();
             }else if(!fbpass.equals(fbcnfpass)){
                 Snackbar.make(view,"Password and Conform password Should be same",LENGTH_LONG).show();
+            }else if(!check(fbphn)){
             }
             else {
                 firebaseAuth.createUserWithEmailAndPassword(fbemail,fbpass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -401,5 +402,28 @@ selectedcity=autoram.getText().toString();
     public void onBackPressed() {
         super.onBackPressed();
     startActivity(new Intent(ListItem.this,com.icy.chatscreen.MainActivity.class));
+    }
+
+    public boolean check(String s){
+        int counr=s.trim().length();
+        int counra=0;
+        for (char c:s.toCharArray()) {
+          if(Character.isDigit(c)){
+              counra++;
+          }
+          if(c=='+'){
+              counra++;
+          }
+        }
+        if(counr!=counra){
+            phn.setError("Invalid Characters entered");
+            return false;
+        }
+        else if(s.length()<10){
+            phn.setError("Phone Number must be 10 digits long");
+            return false;
+        }
+
+        return true;
     }
 }

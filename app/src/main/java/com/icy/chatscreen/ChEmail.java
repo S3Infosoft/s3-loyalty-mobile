@@ -113,6 +113,7 @@ public class ChEmail extends AppCompatActivity {
                                                 @Override
                                                 public void onFinish() {
                                                     startActivity(new Intent(ChEmail.this,MainActivity.class));
+                                                    finish();
                                                 }
                                             }.start();
 

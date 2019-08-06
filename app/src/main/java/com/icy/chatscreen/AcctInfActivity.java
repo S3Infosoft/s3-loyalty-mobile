@@ -1,5 +1,6 @@
 package com.icy.chatscreen;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -36,8 +37,8 @@ public class AcctInfActivity extends AppCompatActivity {
 
     TextView UerIdautocompletetextcityai,loyallevelai,pointsai,curai;
     EditText EmailAdresslnetai,Addressemailetai,Phonenumberfnetai;
-Button savebutton;
-
+Button savebutton,editbutton;
+int sett;
     String userid;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
@@ -58,7 +59,7 @@ Button savebutton;
         pointsai = findViewById(R.id.pointsai);
         curai = findViewById(R.id.inrcurai);
         savebutton=findViewById(R.id.registerbuttonai);
-
+        editbutton=findViewById(R.id.editbuttonai);
 
 
         firebaseAuth=FirebaseAuth.getInstance();
@@ -109,10 +110,40 @@ Button savebutton;
         });
 
 
+        editbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sett==1){
+                    Addressemailetai.setInputType(InputType.TYPE_CLASS_TEXT);
+                    Addressemailetai.setBackgroundResource(android.R.drawable.edit_text);
+                    Phonenumberfnetai.setInputType(InputType.TYPE_CLASS_TEXT);
+                    Phonenumberfnetai.setBackgroundResource(android.R.drawable.edit_text);
+
+                }
+                if(sett==2){
+
+                    EmailAdresslnetai.setInputType(InputType.TYPE_CLASS_TEXT);
+                    EmailAdresslnetai.setBackgroundResource(android.R.drawable.edit_text);
+                    Addressemailetai.setInputType(InputType.TYPE_CLASS_TEXT);
+                    Addressemailetai.setBackgroundResource(android.R.drawable.edit_text);
+
+                }
+                if(sett==3){
+                    Addressemailetai.setInputType(InputType.TYPE_CLASS_TEXT);
+                    Addressemailetai.setBackgroundResource(android.R.drawable.edit_text);
+                    Phonenumberfnetai.setInputType(InputType.TYPE_CLASS_TEXT);
+                    Phonenumberfnetai.setBackgroundResource(android.R.drawable.edit_text);
+
+                }
+
+            }
+        });
 
 
 
-
+        SharedPreferences preferences=getApplicationContext().getSharedPreferences("MyPref",0);
+        SharedPreferences.Editor editor=preferences.edit();
+        sett=preferences.getInt("sett",0);
 
 
 
@@ -138,6 +169,7 @@ if(!emailaddt.equals("##")){
     EmailAdresslnetai.setText(emailaddt);
     EmailAdresslnetai.setInputType(InputType.TYPE_NULL);
     EmailAdresslnetai.setBackground(null);
+
 }
                 if(!phonenumt.equals("##")){
                     Phonenumberfnetai.setText(phonenumt);
@@ -173,6 +205,8 @@ if(!emailaddt.equals("##")){
            curai.setText("In Rupees : Rs."+samppoi*point1+"/-");
             }
         });
+
+
 
 
 
