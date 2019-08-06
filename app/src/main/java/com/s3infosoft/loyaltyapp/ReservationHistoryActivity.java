@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +26,7 @@ import com.s3infosoft.loyaltyapp.model.Order;
 import com.s3infosoft.loyaltyapp.model.ReservationHistory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +38,7 @@ public class ReservationHistoryActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     ProgressBar progressBar;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +51,10 @@ public class ReservationHistoryActivity extends AppCompatActivity {
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("/reservation_history/uid");
+        databaseReference = firebaseDatabase.getReference("/reservation_history/"+firebaseUser.getUid());
 
         databaseReference.orderByChild("booking_date").addValueEventListener(new ValueEventListener() {
             @Override
@@ -60,7 +66,8 @@ public class ReservationHistoryActivity extends AppCompatActivity {
                     {
                         HashMap<String, Object> hashMap = (HashMap<String, Object>) hotelSnapshot.getValue();
 
-                        orders.add(new ReservationHistory(hashMap.get("hotel_name").toString(), hashMap.get("hotel_id").toString(), Integer.parseInt(hashMap.get("amount").toString()), hashMap.get("booking_date").toString()));
+                        orders.add(new ReservationHistory(hashMap.get("hotel_name").toString()+" on "+hashMap.get("booking_date").toString(), hashMap.get("hotel_id").toString(), Integer.parseInt(hashMap.get("amount").toString()), hashMap.get("booking_date").toString()));
+                        Collections.reverse(orders);
                         productAdapter.notifyDataSetChanged();
                         progressBar.setVisibility(View.GONE);
                     }

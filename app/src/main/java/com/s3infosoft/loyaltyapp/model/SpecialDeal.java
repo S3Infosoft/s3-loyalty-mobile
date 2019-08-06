@@ -6,6 +6,7 @@ public class SpecialDeal {
     String name;
     String description;
     List<String> images_urls;
+    String hotelid;
     int points;
 
     public SpecialDeal()
@@ -13,12 +14,17 @@ public class SpecialDeal {
 
     }
 
-    public SpecialDeal(String name, String description, List<String> images_urls, int points)
+    public SpecialDeal(String name, String description, List<String> images_urls, String hotelid, int points)
     {
         this.name = name;
         this.description = description;
         this.images_urls = images_urls;
+        this.hotelid = hotelid;
         this.points = points;
+    }
+
+    public String getHotelid() {
+        return hotelid;
     }
 
     public String getName() {
