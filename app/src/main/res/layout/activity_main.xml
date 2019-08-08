@@ -14,12 +14,6 @@
         android:paddingLeft="40dp"
         android:paddingRight="40dp">
 
-        <in.walkover.sendotpsample.CountrySpinner
-            android:id="@+id/spinner"
-            android:layout_width="255dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"/>
-
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -40,10 +34,28 @@
             android:inputType="phone"
             android:padding="10dp"
             android:textColor="@color/colorPrimary"
-            android:textSize="32sp">
+            android:textSize="32sp"
+            android:gravity="center"
+            android:hint="Phone Number"
+            >
 
             <requestFocus/>
         </EditText>
+
+        <EditText
+            android:id="@+id/OTPNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/inputbox"
+            android:inputType="phone"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="32sp"
+            android:gravity="center"
+            android:hint="Enter OTP"
+            />
+
     </LinearLayout>
 
     <LinearLayout
@@ -71,27 +83,25 @@
             android:textColor="#ffffff"
             android:textSize="20sp"/>
 
+        <Button
+            android:id="@+id/otpVerificationButton"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_blue_generic"
+            android:minHeight="56dp"
+            android:minWidth="132dp"
+            android:onClick="onOTPClicked"
+            android:text="OTP Verification"
+            android:textAllCaps="true"
+            android:textColor="#ffffff"
+            android:textSize="20sp"/>
+
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/msg91_logo"
-        />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/numberInputLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/selectcountry"
-        android:textAllCaps="true"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"/>
 
 </RelativeLayout>

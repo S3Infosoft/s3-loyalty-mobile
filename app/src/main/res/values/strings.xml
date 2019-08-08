@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SendOTPSample</string>
-    <string name="sendotp_key">your_sendotp_key</string>
+    <string name="sendotp_key">Your API KEY</string>
     <string name="enterphonenumber">Enter your phone number</string>
     <string name="selectcountry">Select country</string>
     <string name="sending_sms">We\'re sending an sms to</string>

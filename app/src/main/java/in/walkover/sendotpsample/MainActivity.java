@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,123 +20,82 @@ import android.widget.Toast;
 
 import com.msg91.sendotpandroid.library.PhoneNumberFormattingTextWatcher;
 import com.msg91.sendotpandroid.library.PhoneNumberUtils;
+import com.msg91.sendotpandroid.library.SendOtpVerification;
+import com.msg91.sendotpandroid.library.Verification;
+import com.msg91.sendotpandroid.library.VerificationListener;
 import com.msg91.sendotpandroid.library.internal.Iso2Phone;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements VerificationListener {
 
-    public static final String INTENT_PHONENUMBER = "phonenumber";
-    public static final String INTENT_COUNTRY_CODE = "code";
-
-    private EditText mPhoneNumber;
-    private Button mSmsButton;
-    private String mCountryIso;
-    private TextWatcher mNumberTextWatcher;
-
+    public String TAG="---- Verify";
+    private Verification verification;
+    private EditText mPhoneNumber,mOtpnumber;
+    private Button mSmsButton,mOtpButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
 
+        mOtpnumber=  (EditText) findViewById(R.id.OTPNumber);
         mPhoneNumber = (EditText) findViewById(R.id.phoneNumber);
         mSmsButton = (Button) findViewById(R.id.smsVerificationButton);
+        mOtpButton=(Button)findViewById(R.id.otpVerificationButton);
 
-        mCountryIso = PhoneNumberUtils.getDefaultCountryIso(this);
-        final String defaultCountryName = new Locale("", mCountryIso).getDisplayName();
-        final CountrySpinner spinner = (CountrySpinner) findViewById(R.id.spinner);
-        spinner.init(defaultCountryName);
-        spinner.addCountryIsoSelectedListener(new CountrySpinner.CountryIsoSelectedListener() {
-            @Override
-            public void onCountryIsoSelected(String selectedIso) {
-                if (selectedIso != null) {
-                    mCountryIso = selectedIso;
-                    resetNumberTextWatcher(mCountryIso);
-                    // force update:
-                    mNumberTextWatcher.afterTextChanged(mPhoneNumber.getText());
-                }
-            }
-        });
-        resetNumberTextWatcher(mCountryIso);
 
-        tryAndPrefillPhoneNumber();
+
     }
 
-    private void tryAndPrefillPhoneNumber() {
-        if (checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-            TelephonyManager manager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            mPhoneNumber.setText(manager.getLine1Number());
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 0);
-        }
-    }
 
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            tryAndPrefillPhoneNumber();
-        } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
-                Toast.makeText(this, "This application needs permission to read your phone number to automatically "
-                        + "pre-fill it", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
+//288118Afm2e9qcxQ5d47e920 API KEy
 
-    private void openActivity(String phoneNumber) {
-        Intent verification = new Intent(this, VerificationActivity.class);
-        verification.putExtra(INTENT_PHONENUMBER, phoneNumber);
-        verification.putExtra(INTENT_COUNTRY_CODE, Iso2Phone.getPhone(mCountryIso));
-        startActivity(verification);
-    }
-
-    private void setButtonsEnabled(boolean enabled) {
-        mSmsButton.setEnabled(enabled);
-    }
 
     public void onButtonClicked(View view) {
-        openActivity(getE164Number());
+        verification = SendOtpVerification.createSmsVerification
+                (SendOtpVerification
+                        .config("+91" + mPhoneNumber.getText().toString().trim())
+                        .context(this)
+                        .autoVerification(false)
+                        .httpsConnection(false)//connection to be use in network calls
+                        .expiry("5")//value in minutes
+                        .senderId("SMSIND") //where XXXX is any string
+//                            .otp("1234")// Default Otp code if want to add yours
+                        .otplength("4") //length of your otp
+                        .message("##OTP## is Your verification digits.")
+                        .build(), this);
+        verification.initiate();
     }
 
-    private void resetNumberTextWatcher(String countryIso) {
 
-        if (mNumberTextWatcher != null) {
-            mPhoneNumber.removeTextChangedListener(mNumberTextWatcher);
-        }
+    public void onOTPClicked(View view) {
 
-        mNumberTextWatcher = new PhoneNumberFormattingTextWatcher(countryIso) {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                super.onTextChanged(s, start, before, count);
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                super.beforeTextChanged(s, start, count, after);
-            }
-
-            @Override
-            public synchronized void afterTextChanged(Editable s) {
-                super.afterTextChanged(s);
-                if (isPossiblePhoneNumber()) {
-                    setButtonsEnabled(true);
-                    mPhoneNumber.setTextColor(Color.BLACK);
-                } else {
-                    setButtonsEnabled(false);
-                    mPhoneNumber.setTextColor(Color.RED);
-                }
-            }
-        };
-
-        mPhoneNumber.addTextChangedListener(mNumberTextWatcher);
+        verification.verify(mOtpnumber.getText().toString());
     }
 
-    private boolean isPossiblePhoneNumber() {
-        return PhoneNumberUtils.isPossibleNumber(mPhoneNumber.getText().toString(), mCountryIso);
+    @Override
+    public void onInitiated(String response) {
+        Log.d(TAG, "---Initialized!" + response);
     }
 
-    private String getE164Number() {
-        return mPhoneNumber.getText().toString().replaceAll("\\D", "").trim();
-        // return PhoneNumberUtils.formatNumberToE164(mPhoneNumber.getText().toString(), mCountryIso);
+    @Override
+    public void onInitiationFailed(Exception exception) {
+        Log.e(TAG, "---Verification initialization failed: " + exception.getMessage());
+        Toast.makeText(this, "Verification initialization failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onVerified(String response) {
+        Log.d(TAG, "---Verified!\n" + response);
+        Toast.makeText(this, "Verification Successful", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onVerificationFailed(Exception exception) {
+        Log.e(TAG, "----Verification failed: " + exception.getMessage());
+        Toast.makeText(this, "Verification failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+
+    }
+
 }

@@ -20,11 +20,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".VerificationActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <meta-data
             android:name="sendotp.key"
             android:value="@string/sendotp_key" />
