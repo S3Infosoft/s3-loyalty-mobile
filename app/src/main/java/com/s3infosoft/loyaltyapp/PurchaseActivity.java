@@ -137,21 +137,25 @@ public class PurchaseActivity extends AppCompatActivity implements PaymentResult
 
     @Override
     public void onPaymentError(int i, String s) {
-        Map<String, Object> order = new HashMap<String, Object>();
+        final Map<String, Object> order = new HashMap<String, Object>();
         order.put("desc",""+s);
         order.put("amount", Integer.parseInt(amount.getText().toString()));
         final String key = orderReference.push().getKey();
-        orderReference.child("/"+key).setValue(order);
-        builder.setMessage("Error : "+s)
-                .setCancelable(false)
-                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.setTitle("Payment Failed");
-        alert.show();
+        orderReference.child("/"+key).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                builder.setMessage("Error : "+order.get("desc"))
+                        .setCancelable(false)
+                        .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.setTitle("Payment Failed");
+                alert.show();
+            }
+        });
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.VALUE, amount.getText().toString());
         mFirebaseAnalytics.logEvent("PAYMENT_FAILED", bundle);

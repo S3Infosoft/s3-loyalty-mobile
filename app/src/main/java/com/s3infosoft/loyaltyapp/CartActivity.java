@@ -120,7 +120,7 @@ public class CartActivity extends AppCompatActivity {
     public void buyNow(View view)
     {
         databaseReference = firebaseDatabase.getReference("/order_history/"+(firebaseUser==null?"uid":firebaseUser.getUid()));
-        final DatabaseReference usersReference = firebaseDatabase.getReference("/users/"+(firebaseUser==null?"uid":firebaseUser.getUid()));
+        final DatabaseReference usersReference = firebaseDatabase.getReference("/Users/"+(firebaseUser==null?"uid":firebaseUser.getUid()));
         usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

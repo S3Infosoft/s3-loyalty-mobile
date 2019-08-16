@@ -81,7 +81,15 @@ public class LandingActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        View headerView = navigationView.getHeaderView(0);
+        TextView name = headerView.findViewById(R.id.profileName);
+        TextView email = headerView.findViewById(R.id.profileEmail);
+        ImageView profileNavImage = headerView.findViewById(R.id.profileNavImage);
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        name.setText(firebaseUser.getDisplayName());
+        email.setText(firebaseUser.getEmail()==null?firebaseUser.getPhoneNumber():firebaseUser.getEmail());
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
@@ -92,13 +100,15 @@ public class LandingActivity extends AppCompatActivity
 
         profile_img = (ImageView) findViewById(R.id.profile_img);
 
-        if (firebaseUser == null)
+        if (firebaseUser.getPhotoUrl() == null)
         {
             Glide.with(this).load("https://swopstakes.com/wp-content/themes/uncode-child-ss/images/user-profile.png").circleCrop().into(profile_img);
+            Glide.with(this).load("https://swopstakes.com/wp-content/themes/uncode-child-ss/images/user-profile.png").circleCrop().into(profileNavImage);
         }
         else
         {
             Glide.with(this).load(firebaseUser.getPhotoUrl()).circleCrop().into(profile_img);
+            Glide.with(this).load(firebaseUser.getPhotoUrl()).circleCrop().into(profileNavImage);
         }
 
         user_level = (TextView) findViewById(R.id.user_level);
