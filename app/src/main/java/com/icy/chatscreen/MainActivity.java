@@ -59,19 +59,19 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity{
 
-//GSO
-private FirebaseAuth mAuth;
-SignInButton gsignin;
-GoogleSignInClient mGoogleSignInClient;
-//GSO
-int RC_SIGN_IN=9001;
-TextView signinwithphone;
-Button registernew,forgotpasswordemail;
+    //GSO
+    private FirebaseAuth mAuth;
+    SignInButton gsignin;
+    GoogleSignInClient mGoogleSignInClient;
+    //GSO
+    int RC_SIGN_IN=9001;
+    TextView signinwithphone,registernew,forgotpasswordemail;
 
 
     EditText emailet,passet;
-ImageButton imgsign,spbh;
-FirebaseAnalytics mFirebaseAnalytics;
+    ImageButton spbh;
+    Button imgsign;
+    FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -41,14 +41,15 @@
         <activity
             android:name=".LandingActivity"
             android:label="Loy App"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-      <activity android:name="com.icy.chatscreen.MainActivity">
-        </activity>
-        <activity android:name="com.icy.chatscreen.phonenumberlogin"/>
-        <activity android:name="com.icy.chatscreen.ListItem"/>
+            android:theme="@style/AppTheme.NoActionBar"/>
+      <activity android:name="com.icy.chatscreen.MainActivity"
+          android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name="com.icy.chatscreen.phonenumberlogin"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name="com.icy.chatscreen.ListItem"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="com.icy.chatscreen.samplechatbot"/>
-      <activity android:name="com.icy.chatscreen.Chuser"/>
+        <activity android:name="com.icy.chatscreen.Chuser"/>
         <activity android:name="com.icy.chatscreen.Chphone"/>
         <activity android:name="com.icy.chatscreen.ChEmail"/>
         <activity android:name="com.icy.chatscreen.Chpass"/>
@@ -58,7 +59,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-      <meta-data
+        <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_test_WcDXqhe1knpIwW" />
 

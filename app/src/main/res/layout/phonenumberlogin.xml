@@ -1,71 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#AEEA00"
-    >
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg">
 
-    <RelativeLayout
-        android:id="@+id/phonenumberlayourrelative"
-        android:layout_width="match_parent"
-        android:layout_centerInParent="true"
+    <LinearLayout
+        android:id="@+id/name_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:layout_height="wrap_content">
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.14">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/loy_logo" />
+
+        <TextView
+            android:id="@+id/idikudadeniki"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/autour_one"
+            android:text="LOYALTY\nAPP"
+            android:textColor="@color/colorText"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/phonenumberlayourrelative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_logo"
+        app:layout_constraintVertical_bias="0.17">
+
         <TextView
             android:id="@+id/justtextmobilenumber"
-android:layout_alignTop="@id/mobilenumbergoes"
-            android:gravity="center"
-            android:layout_alignBottom="@id/mobilenumbergoes"
-            android:text="Enter Your Mobile Number"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:gravity="center"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/mobilenumbergoes"
-            android:layout_toRightOf="@id/justtextmobilenumber"
-            android:hint="Enter 10 Digit Mob Num"
-            android:ems="12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:text="GET OTP"
-    android:layout_marginTop="10dp"
-    android:id="@+id/getotpbutton"
-    android:layout_below="@id/justtextmobilenumber"
-    />
-        <TextView
-            android:layout_alignLeft="@id/justtextmobilenumber"
-            android:layout_alignRight="@id/justtextmobilenumber"
-            android:layout_alignTop="@id/otpgoes"
-            android:layout_alignBottom="@id/otpgoes"
-            android:layout_below="@id/getotpbutton"
-            android:id="@+id/justtextotp"
-            android:gravity="center"
-            android:text="Enter Your OTP Number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:layout_alignLeft="@id/mobilenumbergoes"
-            android:layout_alignRight="@id/mobilenumbergoes"
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/getotpbutton"
-            android:layout_toRightOf="@id/justtextotp"
-            android:id="@+id/otpgoes"
-            android:gravity="center"
-            android:hint="Enter OTP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Enter your Mobile Number" />
 
-    </RelativeLayout>
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:layout_below="@id/phonenumberlayourrelative"
-    android:text="Sign In"
-    android:id="@+id/phonenumbersigninraata"
-    />
-</RelativeLayout>
+        <EditText
+            android:id="@+id/mobilenumbergoes"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter 10 Digit Mobile No."
+            android:inputType="number"/>
+
+        <Button
+            android:id="@+id/getotpbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/button_layout"
+            android:text="GET OTP"
+            android:textColor="@color/colorButtonText" />
+
+        <TextView
+            android:id="@+id/justtextotp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Enter your OTP Number" />
+
+        <EditText
+            android:id="@+id/otpgoes"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter OTP"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/phonenumbersigninraata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_layout"
+        android:text="Sign In"
+        android:textColor="@color/colorButtonText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phonenumberlayourrelative"
+        app:layout_constraintVertical_bias="0.337" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
